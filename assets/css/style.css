@@ -1,0 +1,491 @@
+/* 全局样式文件 - 典籍新诠项目 */
+
+/* 样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 全局色彩系统 */
+:root {
+    /* 主色 */
+    --primary-color: #8B4513;      /* 赭石棕 */
+    --primary-dark: #753810;       /* 赭石棕加深10% */
+    --paper-color: #FAF0E6;        /* 米白宣纸色 */
+    
+    /* 辅助色 */
+    --accent-color: #DC143C;        /* 朱砂红 */
+    --text-color: #363636;          /* 墨灰 */
+    
+    /* 中性色 */
+    --light-gray: #F5F7FA;          /* 浅灰 */
+    --ink-gray: #E8E5E1;            /* 淡墨浅灰 */
+    
+    /* 间距系统 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    
+    /* 圆角系统 */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    
+    /* 阴影系统 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    
+    /* 动画时长 */
+    --transition-fast: 0.3s;
+    --transition-normal: 0.5s;
+    --transition-slow: 0.8s;
+}
+
+/* 全局基础样式 */
+body {
+    font-family: "Source Han Serif", "思源宋体", "Source Han Sans", "思源黑体", sans-serif;
+    background-color: var(--paper-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    word-spacing: 0.6px;
+    scroll-behavior: smooth;
+    padding-top: 100px;
+}
+
+/* 字体层级规范 */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+    color: var(--primary-color);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* 一级标题 */
+h1 {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+}
+
+/* 二级标题 */
+h2 {
+    font-size: clamp(16px, 2.5vw, 24px);
+    font-weight: 600;
+}
+
+/* 三级标题 */
+h3 {
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 600;
+}
+
+/* 正文 */
+p, span, div {
+    font-size: clamp(14px, 1.5vw, 16px);
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+/* 辅助文字 */
+small, .text-muted {
+    font-size: clamp(12px, 1.2vw, 13px);
+    font-weight: 300;
+    color: #666;
+}
+
+/* 关键词高亮 */
+.keyword {
+    font-weight: 700;
+    color: var(--accent-color);
+    background: linear-gradient(120deg, rgba(250, 240, 230, 0.8), rgba(250, 240, 230, 0.8));
+    padding: 0 4px;
+    border-radius: 2px;
+}
+
+/* 中式分点符号 */
+.chinese-bullet::before {
+    content: "• ";
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* 导航栏样式 */
+.navbar {
+    background: transparent !important;
+    transition: all var(--transition-normal) ease;
+    padding: 1rem 0;
+}
+
+.navbar.scrolled {
+    background: var(--paper-color) !important;
+    box-shadow: var(--shadow-md);
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color) !important;
+}
+
+.nav-link {
+    font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+    color: var(--text-color) !important;
+    position: relative;
+    transition: color var(--transition-fast) ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-color) !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: width var(--transition-fast) ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--accent-color) !important;
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Hero区样式 */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(to top, rgba(139, 69, 19, 0.6), transparent),
+                url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Chinese%20ink%20painting%20landscape%20Qianli%20Jiangshan%20Tu%20style%2C%20classical%20Chinese%20art%2C%20mountains%20and%20rivers%2C%20ink%20wash%20painting&image_size=landscape_16_9') center/cover no-repeat;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 var(--spacing-md);
+}
+
+.hero-title {
+    font-size: clamp(28px, 5vw, 36px);
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+}
+
+.hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+
+.hero-subtitle {
+    font-size: clamp(14px, 2vw, 16px);
+    color: var(--text-color);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-xl);
+}
+
+/* 按钮样式 */
+.btn-primary {
+    background: rgba(139, 69, 19, 0.8);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all var(--transition-fast) ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary-color);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+    border: 1px solid var(--accent-color);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(139, 69, 19, 0.2);
+}
+
+/* 卡片样式 */
+.card {
+    background: var(--paper-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    transition: all var(--transition-normal) ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(54, 54, 54, 0.1);
+}
+
+/* 书卷造型卡片 */
+.scroll-card {
+    position: relative;
+    background: var(--paper-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    transition: all var(--transition-normal) ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.scroll-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.scroll-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(54, 54, 54, 0.1);
+}
+
+/* 竹简造型卡片 */
+.bamboo-card {
+    position: relative;
+    background: var(--paper-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    transition: all var(--transition-normal) ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.bamboo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 2px;
+    height: 100%;
+    background: var(--primary-color);
+    opacity: 0.3;
+}
+
+.bamboo-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 10px;
+    width: 2px;
+    height: 100%;
+    background: var(--primary-color);
+    opacity: 0.3;
+}
+
+.bamboo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 圆形头像 */
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+/* 回到顶部按钮 */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal) ease;
+    box-shadow: var(--shadow-md);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: var(--primary-dark);
+    transform: translateY(-5px);
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes blurIn {
+    from {
+        filter: blur(10px);
+        opacity: 0;
+    }
+    to {
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+.fade-in-up {
+    opacity: 0;
+    animation: fadeInUp var(--transition-normal) ease forwards;
+}
+
+.blur-in {
+    animation: blurIn var(--transition-slow) ease forwards;
+}
+
+/* 延迟动画 */
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+.delay-4 {
+    animation-delay: 0.4s;
+}
+
+.delay-5 {
+    animation-delay: 0.5s;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .navbar {
+        background: var(--paper-color) !important;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .hero-section {
+        min-height: 80vh;
+    }
+    
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 24px;
+    }
+}
+
+/* 无障碍适配 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #6B340D;
+        --accent-color: #B2102F;
+        --text-color: #000000;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .navbar,
+    .back-to-top {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* 团队照片链接样式 */
+.team-photo-link {
+    display: block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.team-photo-link:hover {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+.team-photo-link img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}

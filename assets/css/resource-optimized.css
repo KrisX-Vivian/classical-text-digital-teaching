@@ -1,0 +1,371 @@
+/**
+ * ============================================
+ * 资源库页面优化样式 - 国风设计
+ * 基于02_resource_资源库页面优化.txt要求
+ * ============================================
+ */
+
+/* ===== 筛选导航区样式 ===== */
+.filter-nav-section {
+    background: #E8E5E1;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+/* 筛选按钮组 */
+.filter-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* 国风筛选按钮 */
+.filter-btn {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 15px;
+    padding: 10px 24px;
+    background: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 8px;
+    color: #5D3A1A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn:hover {
+    background: rgba(139, 69, 19, 0.08);
+    border-color: #DC143C;
+    color: #DC143C;
+}
+
+.filter-btn.active {
+    background: #DC143C;
+    border-color: #DC143C;
+    color: #FFFAF0;
+}
+
+.filter-btn i {
+    font-size: 1.1rem;
+    stroke-width: 1.5px;
+}
+
+/* ===== 资源卡片样式 ===== */
+.resource-card {
+    background: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(30px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.resource-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* 资源封面图容器 - 3:2比例 */
+.resource-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 66.67%; /* 3:2比例 */
+    overflow: hidden;
+    background: linear-gradient(135deg, #F5F0E8 0%, #E8E5E1 100%);
+}
+
+.resource-image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s ease;
+    filter: blur(0);
+}
+
+/* 渐进式加载 - 初始模糊 */
+.resource-image-wrapper img.loading {
+    filter: blur(10px);
+}
+
+/* 封面图边框和投影 */
+.resource-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.05);
+    pointer-events: none;
+}
+
+.resource-card:hover .resource-image-wrapper img {
+    transform: scale(1.05);
+}
+
+/* 卡片内容区 */
+.resource-card .card-body {
+    padding: 1.25rem;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+}
+
+/* 资源名称 - 二级标题 */
+.resource-card .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #5D3A1A;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+/* 核心文本名、作者名加粗 */
+.resource-card .card-title .highlight {
+    color: #8B4513;
+    font-weight: 700;
+}
+
+/* 资源类型标签 - 朱砂红 */
+.resource-type-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    background: rgba(220, 20, 60, 0.1);
+    color: #DC143C;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+/* 资源简介 */
+.resource-card .card-text {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    /* 文字截断 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 资源元信息（类型 + 适用场景 + 更新时间） */
+.resource-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed rgba(139, 69, 19, 0.15);
+}
+
+.resource-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.resource-meta i {
+    font-size: 0.85rem;
+}
+
+/* 资源简介完整内容提示框 */
+.resource-tooltip {
+    position: absolute;
+    background: #FFFAF0;
+    border: 1px solid #DC143C;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: #5D3A1A;
+    line-height: 1.6;
+    max-width: 280px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.resource-card:hover .resource-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 操作按钮 */
+.resource-card .btn {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 0.9rem;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.resource-card .btn-outline-primary {
+    border-color: #8B4513;
+    color: #8B4513;
+}
+
+.resource-card .btn-outline-primary:hover {
+    background: #8B4513;
+    border-color: #8B4513;
+    color: #FFFAF0;
+}
+
+.resource-card .btn-primary {
+    background: #8B4513;
+    border-color: #8B4513;
+}
+
+.resource-card .btn-primary:hover {
+    background: #6B340D;
+    border-color: #6B340D;
+}
+
+/* ===== 加载动画 ===== */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.loading-spinner::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-top-color: #8B4513;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== 下载反馈弹窗 ===== */
+.download-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #FFFAF0;
+    border: 2px solid #8B4513;
+    border-radius: 12px;
+    padding: 24px 40px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+}
+
+.download-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.download-toast i {
+    font-size: 2.5rem;
+    color: #28a745;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.download-toast.error i {
+    color: #DC143C;
+}
+
+.download-toast .toast-message {
+    font-size: 1.1rem;
+    color: #5D3A1A;
+    font-weight: 600;
+}
+
+/* ===== 页面标题区 ===== */
+.page-header {
+    padding: 3rem 0 2rem;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #5D3A1A;
+    margin-bottom: 0.75rem;
+}
+
+.page-header p {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 1.1rem;
+    color: #888;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== 装饰纹理 ===== */
+.page-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.03;
+    background-image: 
+        linear-gradient(90deg, #8B4513 1px, transparent 1px),
+        linear-gradient(#8B4513 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+/* ===== 响应式适配 ===== */
+@media (max-width: 768px) {
+    .filter-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .resource-card .card-title {
+        font-size: 1rem;
+    }
+    
+    .resource-meta {
+        font-size: 0.75rem;
+    }
+}
+
+/* ===== 批量卡片延迟动画 ===== */
+.resource-card.delay-1 { transition-delay: 0.1s; }
+.resource-card.delay-2 { transition-delay: 0.2s; }
+.resource-card.delay-3 { transition-delay: 0.3s; }
+.resource-card.delay-4 { transition-delay: 0.4s; }
+.resource-card.delay-5 { transition-delay: 0.5s; }
+.resource-card.delay-6 { transition-delay: 0.6s; }

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>古典文本数字化教学平台 - 首页</title>
+    <!-- 引入Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- 引入思源宋体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <!-- 引入高级导航栏样式 - 仙气通透+新中式纹理 -->
+    <link rel="stylesheet" href="assets/css/navbar-advanced.css?v=2">
+    <!-- 引入首页优化样式 - 基于01_index_首页优化.txt -->
+    <link rel="stylesheet" href="assets/css/index-optimized.css?version=20250228">
+    
+    <!-- 页面专属高级样式 -->
+    <style>
+        /* ===== 全局字体与排版 ===== */
+        body {
+            font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+            color: #333;
+        }
+        
+        /* ===== 轮播图高级样式 ===== */
+        .carousel-item > div {
+            position: relative;
+        }
+        
+        .carousel-item > div::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        
+        /* ===== Hero区域高级排版 ===== */
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #222;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .hero-desc {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* ===== 卡片高级质感 ===== */
+        .feature-card, .team-card {
+            padding: 30px 15px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover, .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #8b5a2b;
+            margin-bottom: 15px;
+        }
+        
+        /* ===== 按钮高级样式 ===== */
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .btn-danger:hover {
+            background-color: #b02a37;
+            transform: scale(1.05);
+        }
+        
+        /* ===== 团队介绍高级样式 ===== */
+        .team-card .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #332114;
+            margin-top: 10px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        #team .row.text-center > p {
+            font-size: 1rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px 0;
+        }
+        
+        #team .row.text-center > p i {
+            color: #8b5a2b;
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* ===== 渐入动画高级效果 ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in.delay-1 { transition-delay: 0.1s; }
+        .fade-in.delay-2 { transition-delay: 0.2s; }
+        .fade-in.delay-3 { transition-delay: 0.3s; }
+        .fade-in.delay-4 { transition-delay: 0.4s; }
+        
+        /* ===== 图片占位符样式 ===== */
+        .img-placeholder {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9rem;
+            border: 2px dashed #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                典籍新诠
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resource.html">资源库</a></li>
+                    <li class="nav-item"><a class="nav-link" href="courses.html">教学视频</a></li>
+                    <li class="nav-item"><a class="nav-link" href="exercises.html">题库与AI</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== 轮播Banner - 图片替换说明 ====================
+         【轮播图1 - 红楼梦】建议替换为：高清大观园水墨画/宝黛读书场景
+         图片路径：assets/images/banner-hongloumeng.jpg
+         尺寸建议：1920x500px 或 16:9 比例
+         风格：中国古典水墨风、低饱和度、宣纸纹理
+         
+         【轮播图2 - 聊斋志异】建议替换为：月夜竹林/狐仙意境图
+         图片路径：assets/images/banner-liaozhai.jpg
+         尺寸建议：1920x500px 或 16:9 比例
+         风格：神秘空灵、淡蓝灰色调、水墨渲染
+         
+         【轮播图3 - 儒林外史】建议替换为：明清书房/文人雅集场景
+         图片路径：assets/images/banner-rulin.jpg
+         尺寸建议：1920x500px 或 16:9 比例
+         风格：庄重典雅、黄褐色调、书卷气息
+    ====================================================================== -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="margin-top: 70px;">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <!-- 【轮播图1 - 红楼梦】已替换为本地高清图 -->
+            <div class="carousel-item active">
+                <div style="height: 500px; background: url('assets/images/banner-hongloumeng.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center text-white p-5">
+                        <h2 class="display-4 fw-bold mb-4">典籍新诠・《红楼梦》数字人文解读</h2>
+                        <p class="lead mb-4">古典文本数字化教学平台</p>
+                        <a href="resource.html" class="btn btn-danger btn-lg">探索专题</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 【轮播图2 - 聊斋志异】已替换为本地高清图 -->
+            <div class="carousel-item">
+                <div style="height: 500px; background: url('assets/images/banner-liaozhai.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center text-white p-5">
+                        <h2 class="display-4 fw-bold mb-4">典籍新诠・《聊斋志异》数字人文解读</h2>
+                        <p class="lead mb-4">古典文本数字化教学平台</p>
+                        <a href="resource.html" class="btn btn-danger btn-lg">探索专题</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 【轮播图3 - 儒林外史】已替换为本地高清图 -->
+            <div class="carousel-item">
+                <div style="height: 500px; background: url('assets/images/banner-rulin.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center text-white p-5">
+                        <h2 class="display-4 fw-bold mb-4">典籍新诠・《儒林外史》数字人文解读</h2>
+                        <p class="lead mb-4">古典文本数字化教学平台</p>
+                        <a href="resource.html" class="btn btn-danger btn-lg">探索专题</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Hero核心视觉区 -->
+    <section class="hero-section mt-5">
+        <div class="container">
+            <h1 class="hero-title">典籍新诠：古典文本的数字化教学探索</h1>
+            <p class="hero-desc">以数字技术激活古典文本生命力，融合《红楼梦》等经典古籍与沉浸式教学、智能题库，打造专业的古典文学学习平台。</p>
+            <a href="resource.html" class="btn btn-danger btn-lg">进入资源库 <i class="bi bi-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- 项目亮点模块 -->
+    <section class="container py-10 mt-5">
+        <div class="row text-center mb-5">
+            <h2 class="display-5">项目核心特色</h2>
+            <p class="text-muted">以数字化方式重构古典文学学习体验</p>
+        </div>
+        <div class="row g-4 feature-row">
+            <!-- 亮点1：丰富资源库 -->
+            <div class="col-md-3">
+                <div class="feature-card text-center fade-in delay-1">
+                    <i class="bi bi-book-half feature-icon"></i>
+                    <h3 class="h5">丰富古籍资源</h3>
+                    <p class="text-muted">收录《红楼梦》等<span class="feature-keyword">经典古籍</span>，提供<span class="feature-keyword">数字化专题解读</span>。</p>
+                </div>
+            </div>
+            <!-- 亮点2：沉浸式教学视频 -->
+            <div class="col-md-3">
+                <div class="feature-card text-center fade-in delay-2">
+                    <i class="bi bi-play-circle feature-icon"></i>
+                    <h3 class="h5">沉浸式教学视频</h3>
+                    <p class="text-muted"><span class="feature-keyword">古风质感</span>教学视频，专业讲师深度解析文本内涵。</p>
+                </div>
+            </div>
+            <!-- 亮点3：智能题库 -->
+            <div class="col-md-3">
+                <div class="feature-card text-center fade-in delay-3">
+                    <i class="bi bi-question-circle feature-icon"></i>
+                    <h3 class="h5">智能互动题库</h3>
+                    <p class="text-muted">多题型精选题库，<span class="feature-keyword">即时反馈</span>答案与深度解析。</p>
+                </div>
+            </div>
+            <!-- 亮点4：专属AI助手 -->
+            <div class="col-md-3">
+                <div class="feature-card text-center fade-in delay-4">
+                    <i class="bi bi-robot feature-icon"></i>
+                    <h3 class="h5">专属AI助手</h3>
+                    <p class="text-muted">聚焦项目资料，提供比通用AI更<span class="feature-keyword">专业的解答</span>。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 团队介绍模块 - 图片替换说明 ====================
+         【团队照片替换指南】
+         图片路径：assets/images/team-1.jpg 至 team-5.jpg
+         尺寸建议：400x400px 或 1:1 正方形比例
+         风格建议：统一风格的证件照或团队形象照，背景简洁
+         
+         【联系方式替换指南】
+         邮箱：替换为真实联系邮箱
+         电话：替换为真实联系电话
+         微信：可替换为微信二维码图片路径
+    ====================================================================== -->
+    <section id="team" class="container py-5">
+        <div class="row text-center mb-5">
+            <h2 class="display-5">团队介绍</h2>
+            <p class="text-muted">一群热爱古典文学与数字技术的创作者</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <!-- 【团队成员1 - 队长】替换图片：assets/images/team-1.jpg -->
+            <div class="col-lg-2 col-md-4 team-col">
+                <div class="team-card text-center fade-in delay-1">
+                    <a href="assets/images/team-photo/team-1.jpg" target="_blank" class="team-photo-link">
+                        <img src="assets/images/team-photo/team-1.jpg" class="card-img-top" alt="队长" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">XXX（队长）</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- 【团队成员2】替换图片：assets/images/team-2.jpg -->
+            <div class="col-lg-2 col-md-4 team-col">
+                <div class="team-card text-center fade-in delay-2">
+                    <a href="assets/images/team-photo/team-2.jpg" target="_blank" class="team-photo-link">
+                        <img src="assets/images/team-photo/team-2.jpg" class="card-img-top" alt="成员2" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">XXX</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- 【团队成员3】替换图片：assets/images/team-3.jpg -->
+            <div class="col-lg-2 col-md-4 team-col">
+                <div class="team-card text-center fade-in delay-3">
+                    <a href="assets/images/team-photo/team-3.jpg" target="_blank" class="team-photo-link">
+                        <img src="assets/images/team-photo/team-3.jpg" class="card-img-top" alt="成员3" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">XXX</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- 【团队成员4】替换图片：assets/images/team-4.jpg -->
+            <div class="col-lg-2 col-md-4 team-col">
+                <div class="team-card text-center fade-in delay-4">
+                    <a href="assets/images/team-photo/team-4.jpg" target="_blank" class="team-photo-link">
+                        <img src="assets/images/team-photo/team-4.jpg" class="card-img-top" alt="成员4" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">XXX</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- 【团队成员5】替换图片：assets/images/team-5.jpg -->
+            <div class="col-lg-2 col-md-4 team-col">
+                <div class="team-card text-center fade-in delay-4">
+                    <a href="assets/images/team-photo/team-5.jpg" target="_blank" class="team-photo-link">
+                        <img src="assets/images/team-photo/team-5.jpg" class="card-img-top" alt="成员5" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">XXX</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 联系方式 - 请替换为真实信息 -->
+        <div class="row mt-5 text-center">
+            <p><i class="bi bi-envelope-fill me-2"></i> 邮箱：xxx@xxx.com（请替换）</p>
+            <p><i class="bi bi-phone-fill me-2"></i> 电话：138XXXX8888（请替换）</p>
+            <p><i class="bi bi-weixin-fill me-2"></i> 微信：XXXXXX（可放二维码图片）</p>
+        </div>
+    </section>
+
+    <!-- ==================== 价值罗盘模块 - 差异化记忆点 ====================
+         【价值罗盘说明】
+         国风罗盘造型，展示项目三大核心价值
+         点击扇区可查看详细内容
+    ====================================================================== -->
+    <section id="value-compass" class="container py-5">
+        <div class="row text-center mb-4">
+            <h2 class="display-5">典籍新诠价值罗盘</h2>
+            <p class="text-muted">点击扇区探索项目价值</p>
+        </div>
+        <div class="value-compass fade-in">
+            <div class="compass-outer">
+                <div class="compass-inner">价值</div>
+                <div class="compass-sector sector-academic" data-value="academic">
+                    <i class="bi bi-journal-bookmark"></i>
+                    <span>学术价值</span>
+                </div>
+                <div class="compass-sector sector-teaching" data-value="teaching">
+                    <i class="bi bi-easel"></i>
+                    <span>教学价值</span>
+                </div>
+                <div class="compass-sector sector-social" data-value="social">
+                    <i class="bi bi-people"></i>
+                    <span>社会价值</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="text-center">
+                <p>© 2026 典籍新诠 - 古典文本数字化教学平台 版权所有</p>
+                <p class="text-muted small mt-2">本平台仅用于教学研究使用</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 - 书卷造型 -->
+    <div id="backToTop" class="back-to-top" title="回到顶部">
+        <i class="bi bi-chevron-up"></i>
+    </div>
+
+    <!-- 引入JS依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== 轮播图高级配置 =====
+        const carousel = new bootstrap.Carousel('#carouselExampleIndicators', {
+            interval: 5000,      // 5秒切换，更从容
+            touch: true,         // 移动端触摸滑动
+            pause: 'hover',      // 鼠标悬停暂停
+            wrap: true,          // 循环播放
+            keyboard: true       // 支持键盘控制
+        });
+        
+        // ===== 导航栏滚动效果 =====
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // ===== 滚动触发动画（使用IntersectionObserver实现更丝滑效果）=====
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        // 使用IntersectionObserver实现更高效的动画触发
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        } else {
+            // 降级方案
+            window.addEventListener('scroll', handleScrollAnimation);
+            window.addEventListener('load', handleScrollAnimation);
+        }
+        
+        // 页面加载完成后初始化一次
+        window.addEventListener('load', handleScrollAnimation);
+        
+        // ===== 回到顶部按钮控制 =====
+        const backToTopBtn = document.getElementById('backToTop');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        
+        // ===== 价值罗盘交互 - 点击扇区显示详情 =====
+        document.querySelectorAll('.compass-sector').forEach(sector => {
+            sector.addEventListener('click', function() {
+                const valueType = this.getAttribute('data-value');
+                showValueDetail(valueType);
+            });
+        });
+        
+        function showValueDetail(type) {
+            const details = {
+                'academic': {
+                    title: '学术价值',
+                    icon: 'bi-journal-bookmark',
+                    content: [
+                        '● 融合数字人文与古典文学研究',
+                        '● 构建文本分析新范式',
+                        '● 提供跨学科研究方法论'
+                    ],
+                    keyword: '文本数字化'
+                },
+                'teaching': {
+                    title: '教学价值',
+                    icon: 'bi-easel',
+                    content: [
+                        '● 创新沉浸式教学模式',
+                        '● 提升古典文学学习体验',
+                        '● 实现个性化学习路径'
+                    ],
+                    keyword: '跨学科融合'
+                },
+                'social': {
+                    title: '社会价值',
+                    icon: 'bi-people',
+                    content: [
+                        '● 推动传统文化数字化传承',
+                        '● 服务文化强国战略',
+                        '● 促进经典普及与传播'
+                    ],
+                    keyword: '文化传承'
+                }
+            };
+            
+            const detail = details[type];
+            if (detail) {
+                // 创建国风模态框
+                const modalHtml = `
+                    <div class="modal fade" id="valueModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border: 2px solid #8B4513; border-radius: 12px; background: #FFFAF0; font-family: 'Noto Serif SC', serif;">
+                                <div class="modal-header" style="border-bottom: 1px solid rgba(139, 69, 19, 0.2); background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(139, 69, 19, 0.05) 100%);">
+                                    <h5 class="modal-title" style="color: #8B4513; font-weight: 700;">
+                                        <i class="bi ${detail.icon}" style="margin-right: 8px; color: #DC143C;"></i>${detail.title}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="padding: 24px;">
+                                    <div style="margin-bottom: 16px;">
+                                        <span style="background: #8B4513; color: #FFFAF0; padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">核心关键词：${detail.keyword}</span>
+                                    </div>
+                                    <ul style="list-style: none; padding: 0; margin: 0;">
+                                        ${detail.content.map(item => `<li style="padding: 8px 0; color: #5D3A1A; font-size: 1rem; border-bottom: 1px dashed rgba(139, 69, 19, 0.15);">${item}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 移除已存在的模态框
+                const existingModal = document.getElementById('valueModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                // 添加新模态框并显示
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+                const modal = new bootstrap.Modal(document.getElementById('valueModal'));
+                modal.show();
+            }
+        }
+    </script>
+</body>
+</html>

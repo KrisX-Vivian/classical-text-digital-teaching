@@ -1,0 +1,195 @@
+/**
+ * ============================================
+ * 导航栏高级样式 - 仙气通透+新中式高级纹理
+ * 契合国家级项目精致美观标准
+ * ============================================
+ */
+
+/* ===== 导航栏基础样式 ===== */
+.navbar {
+    /* 底色：赭石棕 + 透明度 */
+    background-color: rgba(139, 69, 19, 0.92) !important;
+    
+    /* 宣纸纹理叠加 - soft-light模式柔和融合 */
+    background-image: url('../images/xuanzhi-texture.png');
+    background-blend-mode: soft-light;
+    background-size: 300px 300px;
+    background-repeat: repeat;
+    
+    /* 透明度 */
+    opacity: 0.98;
+    
+    /* 极淡阴影 - 仙气感 */
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+    
+    /* 顺滑过渡 */
+    transition: background-color 0.3s ease, 
+                box-shadow 0.3s ease, 
+                opacity 0.3s ease;
+}
+
+/* ===== 导航栏滚动后样式 ===== */
+.navbar.scrolled {
+    /* 背景变浅 - 米白宣纸色，与文字形成清晰对比 */
+    background-color: rgba(250, 240, 230, 0.98) !important;
+    
+    /* 保留纹理 */
+    background-image: url('../images/xuanzhi-texture.png');
+    background-blend-mode: soft-light;
+    
+    /* 轻微加重阴影 */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    
+    /* 保持透明度 */
+    opacity: 0.98;
+}
+
+/* ===== 品牌Logo样式 ===== */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    
+    /* 加深赭石棕 - 始终保持此颜色 */
+    color: #5D3A1A !important;
+    
+    /* 极淡文字阴影 - 增加质感 */
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ===== 导航链接样式 ===== */
+.nav-link {
+    position: relative;
+    margin: 0 8px;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    
+    /* 米白宣纸色 */
+    color: #FAF0E6 !important;
+    
+    /* 极淡文字阴影 */
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* 导航链接hover - 加深赭石棕 */
+.nav-link:hover {
+    color: #5D3A1A !important;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* 激活状态 */
+.nav-link.active {
+    color: #5D3A1A !important;
+    font-weight: 700;
+}
+
+/* ===== 滚动后品牌Logo颜色调整 ===== */
+.navbar.scrolled .navbar-brand {
+    /* 滚动后背景变浅，Logo用深棕色确保对比度 */
+    color: #5D3A1A !important;
+}
+
+/* ===== 滚动后导航链接颜色调整 ===== */
+.navbar.scrolled .nav-link {
+    /* 滚动后背景变浅，文字用深棕色确保对比度 */
+    color: #363636 !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.navbar.scrolled .nav-link:hover,
+.navbar.scrolled .nav-link.active {
+    color: #8B4513 !important;
+    font-weight: 600;
+}
+
+.navbar.scrolled .nav-link::after {
+    /* 滚动后下划线颜色加深 */
+    background-color: #8B4513;
+    box-shadow: 0 1px 3px rgba(139, 69, 19, 0.4);
+}
+
+/* ===== 下划线hover动画 ===== */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    
+    /* 朱砂红下划线 */
+    background-color: #DC143C;
+    
+    /* 柔和阴影 */
+    box-shadow: 0 1px 3px rgba(220, 20, 60, 0.3);
+    
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* ===== 移动端菜单按钮 ===== */
+.navbar-toggler {
+    border-color: rgba(250, 240, 230, 0.5);
+    transition: border-color 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    border-color: rgba(250, 240, 230, 0.8);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28250, 240, 230, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ===== 响应式适配 ===== */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        /* 移动端菜单背景 */
+        background-color: rgba(139, 69, 19, 0.98);
+        background-image: url('../images/xuanzhi-texture.png');
+        background-blend-mode: soft-light;
+        
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .nav-link {
+        padding: 0.75rem 1rem;
+        margin: 0.25rem 0;
+    }
+    
+    .nav-link::after {
+        bottom: 5px;
+    }
+}
+
+/* ===== 纹理素材提示 ===== */
+/* 
+ * 【宣纸纹理素材说明】
+ * 当前纹理路径：assets/images/xuanzhi-texture.png
+ * 
+ * 可替换为高清宣纸纹理图：
+ * 1. 将高清宣纸纹理图存入 assets/images/ 目录
+ * 2. 命名为 xuanzhi-texture.png（或修改上方background-image路径）
+ * 3. 建议使用：
+ *    - 尺寸：512x512px 或 1024x1024px（可无缝平铺）
+ *    - 格式：PNG（支持透明通道）
+ *    - 风格：米黄色宣纸纹理，带有细微纤维质感
+ *    - 色调：偏暖的米白/浅黄色调，与赭石棕底色协调
+ * 
+ * 推荐素材来源：
+ * - 免费：SVGBackgrounds.com、TransparentTextures.com
+ * - 付费：站酷海洛、摄图网（搜索"宣纸纹理"）
+ * - 自制：扫描真实宣纸后在PS中处理为无缝贴图
+ */

@@ -1,0 +1,542 @@
+/**
+ * ============================================
+ * 首页优化样式 - 基于01_index_首页优化.txt
+ * 古典文本数字化教学平台 - 国风高级感设计
+ * ============================================
+ */
+
+/* ===== 全局平滑滚动 ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===== Hero区优化 - 首屏核心区 ===== */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Hero背景：全屏水墨山水 + 渐变遮罩 */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(to top, rgba(139, 69, 19, 0.6) 0%, rgba(139, 69, 19, 0) 50%),
+        url('../images/hero-shanshui.jpg') center/cover no-repeat;
+    z-index: -2;
+    /* 页面加载时从模糊到清晰 */
+    animation: heroBlurClear 1.2s ease-out forwards;
+    filter: blur(0px);
+}
+
+@keyframes heroBlurClear {
+    0% {
+        filter: blur(10px);
+        opacity: 0.8;
+    }
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+/* Hero文字容器 */
+.hero-content {
+    text-align: center;
+    max-width: 900px;
+    padding: 0 20px;
+    /* 文字从下往上水墨淡入 */
+    animation: heroTextFadeIn 0.8s ease-out 0.3s both;
+}
+
+@keyframes heroTextFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 主标题样式 */
+.hero-title {
+    font-size: 36px;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    font-weight: 700;
+    color: #8B4513;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+/* 主标题下方金线分隔 */
+.hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #D4AF37, transparent);
+}
+
+/* 副标题样式 */
+.hero-subtitle {
+    font-size: 16px;
+    font-family: 'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+    color: #363636;
+    line-height: 1.8;
+    margin-top: 20px;
+}
+
+/* ===== 核心创新点模块 - 书卷造型卡片 ===== */
+.feature-section {
+    padding: 80px 0;
+    background-color: #FAF0E6;
+}
+
+/* 书卷造型卡片 */
+.feature-card {
+    background-color: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    padding: 30px 24px;
+    height: 100%;
+    position: relative;
+    /* 书卷两侧装饰 */
+    box-shadow: 
+        -3px 0 0 rgba(139, 69, 19, 0.1),
+        3px 0 0 rgba(139, 69, 19, 0.1);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* 滚动进入可视区域时显示 */
+.feature-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 卡片延迟动画 */
+.feature-card.delay-1 { transition-delay: 0.1s; }
+.feature-card.delay-2 { transition-delay: 0.2s; }
+.feature-card.delay-3 { transition-delay: 0.3s; }
+
+/* 卡片hover效果 */
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        -3px 0 0 rgba(139, 69, 19, 0.1),
+        3px 0 0 rgba(139, 69, 19, 0.1),
+        0 8px 20px rgba(54, 54, 54, 0.1);
+}
+
+/* 书卷顶部装饰 */
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #8B4513, transparent);
+}
+
+/* 核心关键词高亮 */
+.feature-keyword {
+    font-weight: 700;
+    color: #DC143C;
+    background: linear-gradient(to bottom, transparent 60%, rgba(220, 20, 60, 0.1) 60%);
+    padding: 0 4px;
+}
+
+/* 栅格布局间距 */
+.feature-row {
+    --bs-gutter-x: 24px;
+}
+
+@media (max-width: 768px) {
+    .feature-row {
+        --bs-gutter-x: 16px;
+    }
+}
+
+/* ===== 团队展示模块 - 竹简造型卡片 ===== */
+.team-section {
+    padding: 80px 0;
+    background-color: #F5F5DC;
+}
+
+/* 竹简造型卡片 */
+.team-card {
+    background: linear-gradient(to right, #E8D4C4 0%, #FFFAF0 5%, #FFFAF0 95%, #E8D4C4 100%);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    padding: 25px 20px;
+    text-align: center;
+    position: relative;
+    /* 竹简纹理效果 */
+    box-shadow: 
+        inset 2px 0 4px rgba(139, 69, 19, 0.1),
+        inset -2px 0 4px rgba(139, 69, 19, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        inset 2px 0 4px rgba(139, 69, 19, 0.1),
+        inset -2px 0 4px rgba(139, 69, 19, 0.1),
+        0 8px 20px rgba(54, 54, 54, 0.1);
+}
+
+/* 竹简横向纹理 */
+.team-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 28px,
+        rgba(139, 69, 19, 0.03) 28px,
+        rgba(139, 69, 19, 0.03) 29px
+    );
+    pointer-events: none;
+}
+
+/* 圆形头像 */
+.team-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #8B4513;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 核心贡献朱砂红标注 */
+.team-contribution {
+    color: #DC143C;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ===== 导航栏优化 - 水墨透明渐变 ===== */
+.navbar {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(250, 240, 230, 0.9)) !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(190, 137, 84, 0.98) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 导航项下划线动画 */
+.nav-link {
+    position: relative;
+    color: #8B4513 !important;
+    font-weight: 500;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #DC143C, transparent);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* ===== 按钮交互优化 - 国风圆角 ===== */
+.btn-guofeng {
+    background-color: rgba(139, 69, 19, 0.8);
+    color: #FFFAF0;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    font-family: 'Noto Serif SC', serif;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-guofeng:hover {
+    background-color: #8B4513;
+    transform: scale(1.02);
+    border: 1px solid #DC143C;
+}
+
+.btn-guofeng:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(54, 54, 54, 0.2);
+}
+
+/* ===== 回到顶部按钮 - 书卷造型 ===== */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 60px;
+    background: linear-gradient(to right, #E8D4C4, #FFFAF0, #E8D4C4);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top i {
+    color: #8B4513;
+    font-size: 1.5rem;
+}
+
+/* ===== 价值罗盘 - 国风罗盘造型 ===== */
+.value-compass {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 50px auto;
+}
+
+.compass-outer {
+    width: 100%;
+    height: 100%;
+    border: 4px solid #8B4513;
+    border-radius: 50%;
+    background: #FFFAF0;
+    position: relative;
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 30px rgba(139, 69, 19, 0.05);
+    overflow: hidden;
+}
+
+/* 罗盘刻度装饰 */
+.compass-outer::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 94%;
+    height: 94%;
+    border: 1px dashed rgba(139, 69, 19, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.compass-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFAF0;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    z-index: 20;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+    border: 2px solid rgba(255, 250, 240, 0.3);
+}
+
+/* ===== 罗盘扇区 - 简化布局确保文字完整 ===== */
+.compass-sector {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #5D3A1A;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    z-index: 5;
+    background: rgba(139, 69, 19, 0.08);
+    border: 2px solid rgba(139, 69, 19, 0.4);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+}
+
+.compass-sector:hover {
+    background: rgba(220, 20, 60, 0.12);
+    border-color: #DC143C;
+    color: #8B4513;
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.2);
+}
+
+.compass-sector i {
+    font-size: 1.8rem;
+    color: #8B4513;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.compass-sector span {
+    display: block;
+    line-height: 1.2;
+}
+
+/* 三个扇区位置 - 等边三角形分布 */
+.sector-academic {
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.sector-academic:hover {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.sector-teaching {
+    bottom: 30px;
+    left: 35px;
+}
+
+.sector-social {
+    bottom: 30px;
+    right: 35px;
+}
+
+/* ===== 中式列表符号 ===== */
+.chinese-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.chinese-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.chinese-list li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    color: #8B4513;
+    font-size: 0.8rem;
+}
+
+/* ===== 响应式适配 ===== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .hero-subtitle {
+        font-size: 14px;
+    }
+    
+    .value-compass {
+        width: 260px;
+        height: 260px;
+    }
+    
+    .compass-inner {
+        width: 70px;
+        height: 70px;
+        font-size: 1rem;
+    }
+    
+    .compass-sector {
+        width: 85px;
+        height: 85px;
+        font-size: 0.75rem;
+    }
+    
+    .compass-sector i {
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+    }
+    
+    .sector-academic {
+        top: 10px;
+    }
+    
+    .sector-teaching {
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .sector-social {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* ===== 图片素材提示 ===== */
+/*
+ * 【Hero背景图素材说明】
+ * 路径：assets/images/hero-shanshui.jpg
+ * 建议：千里江山图风格水墨山水长卷
+ * 尺寸：1920x1080px 或更大
+ * 色调：青绿山水或水墨淡雅风格
+ * 
+ * 素材来源建议：
+ * - 故宫博物院官网（千里江山图高清资源）
+ * - 站酷海洛、摄图网（搜索"水墨山水"、"千里江山"）
+ * - 自制：使用AI生成工具生成16:9水墨山水图
+ */

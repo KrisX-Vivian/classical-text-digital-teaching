@@ -1,0 +1,494 @@
+/**
+ * ============================================
+ * 题库与AI工具页面优化样式 - 国风设计
+ * 基于04_exercises_题库 AI 工具页面优化.txt要求
+ * ============================================
+ */
+
+/* ===== 页面标题区 ===== */
+.page-header {
+    padding: 3rem 0 2rem;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #5D3A1A;
+    margin-bottom: 0.75rem;
+}
+
+.page-header p {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 1.1rem;
+    color: #888;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== 双分区布局 ===== */
+.section-divider {
+    width: 1px;
+    background: #8B4513;
+    height: auto;
+    min-height: 400px;
+}
+
+@media (max-width: 991.98px) {
+    .section-divider {
+        width: 100%;
+        height: 1px;
+        min-height: auto;
+        margin: 2rem 0;
+    }
+}
+
+/* ===== 题库模块 ===== */
+.exercise-module {
+    padding-right: 2rem;
+}
+
+@media (max-width: 991.98px) {
+    .exercise-module {
+        padding-right: 0;
+    }
+}
+
+/* 筛选导航区 */
+.filter-nav-section {
+    background: #E8E5E1;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #8B4513;
+    border-top: 1px solid rgba(139, 69, 19, 0.1);
+    border-radius: 8px;
+}
+
+.filter-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.filter-btn {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 15px;
+    padding: 10px 24px;
+    background: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 8px;
+    color: #5D3A1A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn:hover {
+    background: #8B4513;
+    color: #FFFAF0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+}
+
+.filter-btn.active {
+    background: #DC143C;
+    border-color: #DC143C;
+    color: #FFFAF0;
+}
+
+/* 题库卡片 - 4:3比例 */
+.exercise-card {
+    aspect-ratio: 4/3;
+    background: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.exercise-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.exercise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.exercise-card h3 {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #363636;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.exercise-card .keyword {
+    color: #8B4513;
+    font-weight: 700;
+}
+
+/* 难度星级 - 朱砂红 */
+.difficulty-stars {
+    color: #DC143C;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+/* 文本类型标签 - 赭石棕 */
+.text-type-tag {
+    display: inline-block;
+    background: rgba(139, 69, 19, 0.1);
+    color: #8B4513;
+    font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.text-type-tag i {
+    margin-right: 4px;
+}
+
+.exercise-content {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+/* 选项样式 */
+.exercise-options {
+    margin-bottom: 1rem;
+}
+
+.exercise-options .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.exercise-options .form-check-input:checked {
+    background-color: #8B4513;
+    border-color: #8B4513;
+}
+
+.exercise-options .form-check-label {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    color: #363636;
+}
+
+/* 国风按钮 */
+.guofeng-btn {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    background: #8B4513;
+    color: #FFFAF0;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.guofeng-btn:hover {
+    background: #6B3410;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+}
+
+/* 答案卡片 */
+.answer-card {
+    background: #FAF8F5;
+    border-left: 3px solid #DC143C;
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+}
+
+.answer-card .correct-answer {
+    color: #8B4513;
+}
+
+.answer-card strong {
+    color: #DC143C;
+}
+
+/* 文本域样式 */
+.exercise-card textarea.form-control {
+    background: #FAF8F5;
+    border: 1px solid #D4C4B0;
+    border-radius: 8px;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    resize: vertical;
+}
+
+.exercise-card textarea.form-control:focus {
+    border-color: #8B4513;
+    box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.15);
+}
+
+/* ===== AI工具模块 ===== */
+.ai-tool-module {
+    padding-left: 1rem;
+}
+
+@media (max-width: 991.98px) {
+    .ai-tool-module {
+        padding-left: 0;
+    }
+}
+
+/* AI工具卡片 - 书卷造型 */
+.ai-tool-card {
+    background: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 竹简纹装饰 */
+.ai-tool-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(139, 69, 19, 0.15) 0px,
+        rgba(139, 69, 19, 0.15) 8px,
+        transparent 8px,
+        transparent 12px
+    );
+    border-radius: 2px;
+}
+
+.ai-tool-card::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(139, 69, 19, 0.15) 0px,
+        rgba(139, 69, 19, 0.15) 8px,
+        transparent 8px,
+        transparent 12px
+    );
+    border-radius: 2px;
+}
+
+.ai-tool-card .tool-icon {
+    font-size: 3rem;
+    color: #8B4513;
+    display: block;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.ai-tool-card h3 {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #5D3A1A;
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.ai-tool-card > p {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    color: #666;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* AI输入框 - 书卷造型 */
+.ai-input {
+    flex: 1;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    background: #FAF8F5;
+    border: 1px solid #8B4513;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: #363636;
+    caret-color: #DC143C; /* 朱砂红光标 */
+}
+
+.ai-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.ai-input:focus {
+    outline: none;
+    background: #FFF;
+    box-shadow: inset 0 0 0 1px rgba(139, 69, 19, 0.2);
+}
+
+/* AI发送按钮 */
+.ai-btn {
+    background: #8B4513;
+    color: #FFFAF0;
+    border: 1px solid #8B4513;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ai-btn:hover {
+    background: #6B3410;
+    transform: scale(1.05);
+}
+
+.ai-btn i {
+    font-size: 1.2rem;
+}
+
+/* AI回答区域 */
+.ai-response-box {
+    background: #FAF8F5;
+    border: 1px solid #D4C4B0;
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 120px;
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    position: relative;
+}
+
+.ai-label {
+    display: block;
+    color: #8B4513;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.ai-label i {
+    margin-right: 6px;
+}
+
+/* 加载动画 */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(139, 69, 19, 0.2);
+    border-top-color: #8B4513;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== 回到顶部按钮 ===== */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #8B4513;
+    color: #FFFAF0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: #6B3410;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top i {
+    font-size: 1.5rem;
+}
+
+/* ===== 延迟动画类 ===== */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* ===== 响应式适配 ===== */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .page-header p {
+        font-size: 1rem;
+    }
+    
+    .filter-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    
+    .exercise-card {
+        aspect-ratio: auto;
+        min-height: 300px;
+    }
+    
+    .ai-tool-card {
+        padding: 1.5rem;
+    }
+    
+    .ai-input {
+        font-size: 16px; /* 防止iOS缩放 */
+    }
+}
+
+/* ===== 数字点阵装饰（AI工具区轻量装饰） ===== */
+.digital-pattern {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-image: radial-gradient(circle, rgba(139, 69, 19, 0.1) 1px, transparent 1px);
+    background-size: 8px 8px;
+    pointer-events: none;
+    opacity: 0.5;
+}

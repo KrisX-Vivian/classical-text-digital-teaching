@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古典文本数字化教学平台 - 资源库</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- 引入思源宋体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <!-- 引入高级导航栏样式 -->
+    <link rel="stylesheet" href="assets/css/navbar-advanced.css?v=2">
+    <!-- 引入资源库优化样式 -->
+    <link rel="stylesheet" href="assets/css/resource-optimized.css">
+    
+    <!-- 人物关系网交互样式 -->
+    <style>
+        /* 人物关系网容器 */
+        .relation-map-interactive {
+            width: 100%;
+            min-height: 650px;
+            background: linear-gradient(135deg, #FAF0E6 0%, #F5F0E8 100%);
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 宣纸纹理背景 */
+        .relation-map-interactive::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(90deg, rgba(139,69,19,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(139,69,19,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        
+        /* 关系画布 */
+        .relation-canvas {
+            position: relative;
+            width: 100%;
+            height: 600px;
+        }
+        
+        /* 四大家族标识 */
+        .family-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        
+        .family-label {
+            position: absolute;
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(139,69,19,0.15);
+            transform: translate(-50%, -50%);
+        }
+        
+        /* 关系连线SVG */
+        .relation-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .relation-line {
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+            opacity: 0.6;
+        }
+        
+        .love-line {
+            stroke: #DC143C;
+        }
+        
+        .marriage-line {
+            stroke: #8B4513;
+        }
+        
+        .family-line {
+            stroke: #D2B48C;
+        }
+        
+        /* 人物节点层 */
+        .character-nodes-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+        }
+        
+        /* 人物节点 */
+        .character-node {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .character-node:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            z-index: 10;
+        }
+        
+        /* 节点头像 */
+        .node-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FAF0E6 0%, #F5E6D3 100%);
+            border: 2px solid #8B4513;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            font-size: 0.8rem;
+            color: #8B4513;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(139,69,19,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .character-node:hover .node-avatar {
+            background: #8B4513;
+            color: white;
+            box-shadow: 0 4px 12px rgba(139,69,19,0.3);
+        }
+        
+        /* 主要人物 */
+        .character-node.main-character .node-avatar {
+            width: 65px;
+            height: 65px;
+            border: 3px solid #DC143C;
+            font-size: 1rem;
+            color: #DC143C;
+        }
+        
+        .character-node.main-character:hover .node-avatar {
+            background: #DC143C;
+            color: white;
+        }
+        
+        /* 丫鬟节点 */
+        .character-node.servant-node .node-avatar {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #D2B48C;
+            font-size: 0.7rem;
+            color: #666;
+        }
+        
+        .character-node.servant-node:hover .node-avatar {
+            background: #D2B48C;
+            color: white;
+        }
+        
+        /* 节点名称 */
+        .node-name {
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            font-size: 0.85rem;
+            color: #363636;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        /* 节点身份 */
+        .node-title {
+            font-family: "Source Han Sans", "思源黑体", sans-serif;
+            font-size: 0.7rem;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        /* 图例 */
+        .relation-legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(250,240,230,0.9);
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            padding: 1rem;
+            z-index: 3;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .legend-line {
+            width: 20px;
+            height: 2px;
+            display: inline-block;
+        }
+        
+        .legend-text {
+            font-family: "Source Han Sans", "思源黑体", sans-serif;
+            font-size: 0.75rem;
+            color: #363636;
+        }
+        
+        /* 卡牌翻阅导航样式 */
+        .character-card-footer {
+            background: transparent;
+            border-top: 1px solid rgba(139,69,19,0.2);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .character-card-footer .btn {
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            color: #8B4513;
+            border-color: #8B4513;
+            transition: all 0.3s ease;
+        }
+        
+        .character-card-footer .btn:hover {
+            background: #8B4513;
+            color: white;
+        }
+        
+        .character-card-footer .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        #cardCounter {
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            color: #8B4513;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 - 移动端适配 */
+        @media (max-width: 768px) {
+            .relation-canvas {
+                height: 500px;
+            }
+            
+            .family-label {
+                font-size: 1.5rem;
+            }
+            
+            .node-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 0.65rem;
+            }
+            
+            .character-node.main-character .node-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 0.8rem;
+            }
+            
+            .character-node.servant-node .node-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.55rem;
+            }
+            
+            .node-name {
+                font-size: 0.7rem;
+            }
+            
+            .node-title {
+                font-size: 0.6rem;
+            }
+            
+            .relation-legend {
+                padding: 0.5rem;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .legend-text {
+                font-size: 0.65rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .relation-canvas {
+                height: 450px;
+            }
+            
+            .character-card-dialog {
+                max-width: 95%;
+                margin: 0.5rem auto;
+            }
+            
+            .character-card-content {
+                max-height: 90vh;
+            }
+        }
+        
+        /* 人物卡牌弹窗样式 */
+        .character-card-dialog {
+            max-width: 400px;
+        }
+        
+        @media (max-width: 576px) {
+            .character-card-dialog {
+                max-width: 300px;
+            }
+        }
+        
+        .character-card-content {
+            background: #FAF0E6;
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(139,69,19,0.2);
+        }
+        
+        .character-card-header {
+            background: transparent;
+            border-bottom: 1px solid rgba(139,69,19,0.2);
+            padding: 1rem 1.5rem;
+        }
+        
+        .character-card-header .modal-title {
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            color: #8B4513;
+            font-size: 0.9rem;
+        }
+        
+        .character-card-body {
+            padding: 1.5rem;
+        }
+        
+        /* 人物名标题 */
+        .character-name {
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            color: #DC143C;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(139,69,19,0.2);
+        }
+        
+        /* 内容区块 */
+        .character-section {
+            margin-bottom: 1.25rem;
+        }
+        
+        .section-title {
+            font-family: "Source Han Serif", "思源宋体", 仿宋, serif;
+            color: #8B4513;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .character-text {
+            font-family: "Source Han Sans", "思源黑体", sans-serif;
+            color: #363636;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏（和首页一致） -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">典籍新诠</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="resource.html">资源库</a></li>
+                    <li class="nav-item"><a class="nav-link" href="courses.html">教学视频</a></li>
+                    <li class="nav-item"><a class="nav-link" href="exercises.html">题库与AI</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <div class="container">
+            <h1>数字资源库</h1>
+            <p>汇集经典小说与珍贵古籍，以数字化方式呈现，助力深度研读</p>
+        </div>
+    </div>
+    
+    <!-- 筛选导航区 -->
+    <div class="filter-nav-section">
+        <div class="container">
+            <div class="filter-btn-group">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="bi bi-grid-3x3-gap"></i>全部资源
+                </button>
+                <button class="filter-btn" data-filter="novel">
+                    <i class="bi bi-book"></i>经典小说
+                </button>
+                <button class="filter-btn" data-filter="ancient">
+                    <i class="bi bi-journal-text"></i>珍贵古籍
+                </button>
+                <button class="filter-btn" data-filter="special">
+                    <i class="bi bi-star"></i>专题推荐
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 资源卡片列表 -->
+    <div class="container pb-5">
+        <div class="row g-4" id="resourceGrid">
+            <!-- 红楼梦卡片 -->
+            <div class="col-md-4 resource-item" data-category="novel">
+                <div class="resource-card delay-1">
+                    <div class="resource-image-wrapper">
+                        <img src="assets/images/hongloumeng-cover.jpg" alt="红楼梦封面" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <span class="resource-type-tag">经典小说</span>
+                        <h5 class="card-title">《<span class="highlight">红楼梦</span>》</h5>
+                        <div class="resource-meta">
+                            <span><i class="bi bi-person"></i>曹雪芹</span>
+                            <span><i class="bi bi-calendar"></i>清代</span>
+                            <span><i class="bi bi-eye"></i>高中/大学</span>
+                        </div>
+                        <p class="card-text">中国古典四大名著之首，清代章回体长篇小说，展现封建大家族的兴衰。</p>
+                        <div class="resource-tooltip">
+                            中国古典四大名著之首，清代章回体长篇小说，以贾、史、王、薛四大家族的兴衰为背景，展现封建大家族的兴衰历程。
+                        </div>
+                        <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#hongloumengModal">
+                            <i class="bi bi-eye"></i> 查看专题
+                        </button>
+                        <button class="btn btn-primary download-btn">
+                            <i class="bi bi-download"></i> 下载
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- 聊斋志异卡片 -->
+            <div class="col-md-4 resource-item" data-category="novel">
+                <div class="resource-card delay-2">
+                    <div class="resource-image-wrapper">
+                        <img src="assets/images/liaozhai-cover.jpg" alt="聊斋志异封面" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <span class="resource-type-tag">经典小说</span>
+                        <h5 class="card-title">《<span class="highlight">聊斋志异</span>》</h5>
+                        <div class="resource-meta">
+                            <span><i class="bi bi-person"></i>蒲松龄</span>
+                            <span><i class="bi bi-calendar"></i>清代</span>
+                            <span><i class="bi bi-eye"></i>高中/大学</span>
+                        </div>
+                        <p class="card-text">清代文言短篇小说集，借鬼狐花妖之故事，抒写人间百态与孤愤之情。</p>
+                        <div class="resource-tooltip">
+                            清代文言短篇小说集，借鬼狐花妖之故事，抒写人间百态与孤愤之情，是中国古代文言短篇小说的巅峰之作。
+                        </div>
+                        <button class="btn btn-outline-primary me-2">
+                            <i class="bi bi-eye"></i> 查看专题
+                        </button>
+                        <button class="btn btn-primary download-btn">
+                            <i class="bi bi-download"></i> 下载
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- 儒林外史卡片 -->
+            <div class="col-md-4 resource-item" data-category="novel">
+                <div class="resource-card delay-3">
+                    <div class="resource-image-wrapper">
+                        <img src="assets/images/rulin-cover.jpg" alt="儒林外史封面" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <span class="resource-type-tag">经典小说</span>
+                        <h5 class="card-title">《<span class="highlight">儒林外史</span>》</h5>
+                        <div class="resource-meta">
+                            <span><i class="bi bi-person"></i>吴敬梓</span>
+                            <span><i class="bi bi-calendar"></i>清代</span>
+                            <span><i class="bi bi-eye"></i>高中/大学</span>
+                        </div>
+                        <p class="card-text">清代长篇讽刺小说，刻画科举制度下知识分子的群像，是中国古代讽刺文学的高峰。</p>
+                        <div class="resource-tooltip">
+                            清代长篇讽刺小说，刻画科举制度下知识分子的群像，是中国古代讽刺文学的高峰，具有深刻的社会批判意义。
+                        </div>
+                        <button class="btn btn-outline-primary me-2">
+                            <i class="bi bi-eye"></i> 查看专题
+                        </button>
+                        <button class="btn btn-primary download-btn">
+                            <i class="bi bi-download"></i> 下载
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 下载反馈弹窗 -->
+    <div class="download-toast" id="downloadToast">
+        <i class="bi bi-check-circle-fill"></i>
+        <div class="toast-message">资源下载成功</div>
+    </div>
+
+    <!-- 红楼梦专题弹窗（点击卡片后展示） -->
+    <div class="modal fade" id="hongloumengModal" tabindex="-1" aria-labelledby="hongloumengModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="hongloumengModalLabel">《红楼梦》专题解读</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="hongloumeng-section">
+                        <!-- 故事梗概 -->
+                        <h3 class="h4 mb-3">故事梗概</h3>
+                        <!-- 需手动替换：红楼梦故事梗概 -->
+                        <p>《红楼梦》以贾、史、王、薛四大家族的兴衰为背景，以贾宝玉与林黛玉、薛宝钗的爱情婚姻悲剧为主线，描绘了一批举止见识出于须眉之上的闺阁佳人的人生百态，展现了真正的人性美和悲剧美，是一部从各个角度展现中国古代社会百态的史诗性著作。</p>
+
+                        <!-- 人物介绍 -->
+                        <h3 class="h4 mb-3 mt-5">主要人物介绍</h3>
+                        <div class="row g-3">
+                            <!-- 需手动替换：人物信息（可增减） -->
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">贾宝玉</h5>
+                                        <p class="card-text text-muted">荣国府贾政与王夫人所生的次子，衔玉而诞，性格叛逆，不重功名。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">林黛玉</h5>
+                                        <p class="card-text text-muted">林如海与贾敏之女，寄居荣国府，才情横溢，敏感多思，与宝玉两情相悦。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">薛宝钗</h5>
+                                        <p class="card-text text-muted">薛姨妈之女，端庄大方，温婉贤淑，最终与宝玉成婚。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">王熙凤</h5>
+                                        <p class="card-text text-muted">贾琏之妻，精明能干，泼辣狠毒，掌管荣国府家务。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 人物关系网 -->
+                        <h3 class="h4 mb-3 mt-5">人物关系网</h3>
+                        <div class="relation-map-interactive">
+                            <!-- 四大家族关系思维导图 -->
+                            <div class="relation-canvas">
+                                <!-- 四大家族标识 -->
+                                <div class="family-labels">
+                                    <div class="family-label jia-family" style="top: 10%; left: 50%;">贾</div>
+                                    <div class="family-label shi-family" style="top: 50%; left: 10%;">史</div>
+                                    <div class="family-label wang-family" style="top: 50%; right: 10%;">王</div>
+                                    <div class="family-label xue-family" style="bottom: 10%; left: 50%;">薛</div>
+                                </div>
+                                
+                                <!-- 关系连线层 -->
+                                <svg class="relation-lines" viewBox="0 0 800 600">
+                                    <!-- 贾宝玉-林黛玉 -->
+                                    <line x1="400" y1="200" x2="280" y2="280" class="relation-line love-line"/>
+                                    <!-- 贾宝玉-薛宝钗 -->
+                                    <line x1="400" y1="200" x2="520" y2="280" class="relation-line marriage-line"/>
+                                    <!-- 贾宝玉-贾母 -->
+                                    <line x1="400" y1="200" x2="400" y2="120" class="relation-line family-line"/>
+                                    <!-- 贾政-王夫人 -->
+                                    <line x1="350" y1="150" x2="450" y2="150" class="relation-line marriage-line"/>
+                                    <!-- 王熙凤-贾琏 -->
+                                    <line x1="600" y1="300" x2="680" y2="250" class="relation-line marriage-line"/>
+                                    <!-- 史湘云-贾母 -->
+                                    <line x1="200" y1="300" x2="400" y2="120" class="relation-line family-line"/>
+                                </svg>
+                                
+                                <!-- 人物节点层 -->
+                                <div class="character-nodes-layer">
+                                    <!-- 贾府核心 -->
+                                    <div class="character-node main-character" data-character="jiabaoyu" style="top: 33%; left: 50%;">
+                                        <div class="node-avatar">宝玉</div>
+                                        <div class="node-name">贾宝玉</div>
+                                        <div class="node-title">荣国府公子</div>
+                                    </div>
+                                    
+                                    <div class="character-node" data-character="jia-mother" style="top: 20%; left: 50%;">
+                                        <div class="node-avatar">贾母</div>
+                                        <div class="node-name">贾母</div>
+                                        <div class="node-title">贾府老祖宗</div>
+                                    </div>
+                                    
+                                    <div class="character-node" data-character="jiazheng" style="top: 25%; left: 44%;">
+                                        <div class="node-avatar">政</div>
+                                        <div class="node-name">贾政</div>
+                                        <div class="node-title">宝玉之父</div>
+                                    </div>
+                                    
+                                    <div class="character-node" data-character="wang-furen" style="top: 25%; left: 56%;">
+                                        <div class="node-avatar">王</div>
+                                        <div class="node-name">王夫人</div>
+                                        <div class="node-title">宝玉之母</div>
+                                    </div>
+                                    
+                                    <!-- 林家 -->
+                                    <div class="character-node" data-character="lindaiyu" style="top: 47%; left: 35%;">
+                                        <div class="node-avatar">黛玉</div>
+                                        <div class="node-name">林黛玉</div>
+                                        <div class="node-title">宝玉表妹</div>
+                                    </div>
+                                    
+                                    <!-- 薛家 -->
+                                    <div class="character-node" data-character="xuebaochai" style="top: 47%; left: 65%;">
+                                        <div class="node-avatar">宝钗</div>
+                                        <div class="node-name">薛宝钗</div>
+                                        <div class="node-title">宝玉表姐</div>
+                                    </div>
+                                    
+                                    <div class="character-node" data-character="xue-pan" style="top: 60%; left: 70%;">
+                                        <div class="node-avatar">蟠</div>
+                                        <div class="node-name">薛蟠</div>
+                                        <div class="node-title">宝钗之兄</div>
+                                    </div>
+                                    
+                                    <!-- 王家 -->
+                                    <div class="character-node" data-character="wangxifeng" style="top: 50%; left: 75%;">
+                                        <div class="node-avatar">熙凤</div>
+                                        <div class="node-name">王熙凤</div>
+                                        <div class="node-title">贾府管家</div>
+                                    </div>
+                                    
+                                    <div class="character-node" data-character="jia-lian" style="top: 42%; left: 85%;">
+                                        <div class="node-avatar">琏</div>
+                                        <div class="node-name">贾琏</div>
+                                        <div class="node-title">熙凤之夫</div>
+                                    </div>
+                                    
+                                    <!-- 史家 -->
+                                    <div class="character-node" data-character="shi-xiangyun" style="top: 50%; left: 25%;">
+                                        <div class="node-avatar">湘云</div>
+                                        <div class="node-name">史湘云</div>
+                                        <div class="node-title">贾母侄孙女</div>
+                                    </div>
+                                    
+                                    <!-- 丫鬟层 -->
+                                    <div class="character-node servant-node" data-character="qing-wen" style="top: 65%; left: 40%;">
+                                        <div class="node-avatar">晴雯</div>
+                                        <div class="node-name">晴雯</div>
+                                        <div class="node-title">宝玉丫鬟</div>
+                                    </div>
+                                    
+                                    <div class="character-node servant-node" data-character="xi-ren" style="top: 65%; left: 50%;">
+                                        <div class="node-avatar">袭人</div>
+                                        <div class="node-name">袭人</div>
+                                        <div class="node-title">宝玉丫鬟</div>
+                                    </div>
+                                    
+                                    <div class="character-node servant-node" data-character="zi-juan" style="top: 65%; left: 30%;">
+                                        <div class="node-avatar">紫鹃</div>
+                                        <div class="node-name">紫鹃</div>
+                                        <div class="node-title">黛玉丫鬟</div>
+                                    </div>
+                                    
+                                    <div class="character-node servant-node" data-character="ying-ge" style="top: 65%; left: 60%;">
+                                        <div class="node-avatar">莺儿</div>
+                                        <div class="node-name">莺儿</div>
+                                        <div class="node-title">宝钗丫鬟</div>
+                                    </div>
+                                    
+                                    <div class="character-node servant-node" data-character="ping-er" style="top: 65%; left: 75%;">
+                                        <div class="node-avatar">平儿</div>
+                                        <div class="node-name">平儿</div>
+                                        <div class="node-title">熙凤丫鬟</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 图例 -->
+                                <div class="relation-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-line love-line"></span>
+                                        <span class="legend-text">爱情关系</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-line marriage-line"></span>
+                                        <span class="legend-text">婚姻关系</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-line family-line"></span>
+                                        <span class="legend-text">血缘关系</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 人物卡牌弹窗 - 支持翻阅导航 -->
+    <div class="modal fade" id="characterCardModal" tabindex="-1" aria-labelledby="characterCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered character-card-dialog">
+            <div class="modal-content character-card-content">
+                <div class="modal-header character-card-header">
+                    <h5 class="modal-title" id="characterCardModalLabel">
+                        <span id="cardCounter">1 / 15</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body character-card-body">
+                    <!-- 人物内容替换处 - 标题 -->
+                    <h4 class="character-name" id="characterName">人物名</h4>
+                    
+                    <!-- 人物内容替换处 - 身份介绍 -->
+                    <div class="character-section">
+                        <h6 class="section-title">身份介绍</h6>
+                        <p class="character-text" id="characterIdentity">此处替换为人物身份介绍内容</p>
+                    </div>
+                    
+                    <!-- 人物内容替换处 - 核心关系 -->
+                    <div class="character-section">
+                        <h6 class="section-title">核心关系</h6>
+                        <p class="character-text" id="characterRelations">此处替换为人物核心关系内容</p>
+                    </div>
+                    
+                    <!-- 人物内容替换处 - 出场回目 -->
+                    <div class="character-section">
+                        <h6 class="section-title">出场回目</h6>
+                        <p class="character-text" id="characterChapters">此处替换为人物出场回目内容</p>
+                    </div>
+                </div>
+                <div class="modal-footer character-card-footer">
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="prevCharacter">
+                        <i class="bi bi-chevron-left"></i> 上一个
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="nextCharacter">
+                        下一个 <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="text-center">
+                <p>© 2026 典籍新诠 - 古典文本数字化教学平台 版权所有</p>
+                <p class="text-muted small mt-2">本平台仅用于教学研究使用</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // 滚动触发动画
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', handleScrollAnimation);
+        window.addEventListener('load', handleScrollAnimation);
+        
+        // ============================================
+        // 人物卡牌弹窗功能 - 支持15个核心人物翻阅导航
+        // ============================================
+        
+        // 15个核心人物数据 - 人物内容替换处
+        const characterData = {
+            'jiabaoyu': {
+                name: '贾宝玉',
+                identity: '荣国府贾政与王夫人所生的次子，衔玉而诞。性格叛逆，不重功名，厌恶科举仕途，钟情于诗词歌赋与女儿世界。',
+                relations: '与林黛玉为姑表兄妹，两情相悦；与薛宝钗为姨表姐弟，最终成婚；深受贾母疼爱，与晴雯、袭人等丫鬟关系密切。',
+                chapters: '第二回「贾夫人仙逝扬州城 冷子兴演说荣国府」首次提及，第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '贾',
+                order: 1
+            },
+            'lindaiyu': {
+                name: '林黛玉',
+                identity: '林如海与贾敏之女，贾母的外孙女。才情横溢，敏感多思，体弱多病，有「咏絮之才」。',
+                relations: '与贾宝玉为姑表兄妹，两情相悦；与薛宝钗为情敌关系，后和解；与紫鹃主仆情深，情同姐妹。',
+                chapters: '第二回首次提及，第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '林',
+                order: 2
+            },
+            'xuebaochai': {
+                name: '薛宝钗',
+                identity: '薛姨妈之女，薛蟠之妹。端庄大方，温婉贤淑，博学多才，深谙世故，有「停机之德」。',
+                relations: '与贾宝玉为姨表姐弟，最终成婚；与林黛玉为情敌关系，后和解；与王夫人、凤姐等贾府掌权者关系融洽。',
+                chapters: '第四回「薄命女偏逢薄命郎 葫芦僧乱判葫芦案」首次提及，第七回「送宫花贾琏戏熙凤 宴宁府宝玉会秦钟」正式出场。',
+                family: '薛',
+                order: 3
+            },
+            'wangxifeng': {
+                name: '王熙凤',
+                identity: '贾琏之妻，王夫人的侄女。精明能干，泼辣狠毒，掌管荣国府家务，是贾府实际的管家。',
+                relations: '与贾琏为夫妻，关系复杂；与王夫人、贾母等掌权者关系密切；与平儿主仆情深；与尤二姐有恩怨。',
+                chapters: '第二回首次提及，第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '王',
+                order: 4
+            },
+            'jiazheng': {
+                name: '贾政',
+                identity: '荣国府贾代善与贾母之子，贾宝玉之父。为人端方正直，谦恭厚道，但迂腐固执，重视科举仕途。',
+                relations: '与王夫人为夫妻，生有贾元春、贾宝玉；与赵姨娘为妾室，生有贾探春、贾环；对贾宝玉严加管教。',
+                chapters: '第二回「贾夫人仙逝扬州城 冷子兴演说荣国府」正式出场。',
+                family: '贾',
+                order: 5
+            },
+            'wang-furen': {
+                name: '王夫人',
+                identity: '贾政之妻，贾宝玉之母，王熙凤的姑母。出身金陵王家，性格内敛，吃斋念佛，但实则精明。',
+                relations: '与贾政为夫妻；宝玉、元春之母；凤姐的姑母；与薛姨妈为姐妹；对黛玉态度冷淡，偏爱宝钗。',
+                chapters: '第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '王',
+                order: 6
+            },
+            'jia-mother': {
+                name: '贾母',
+                identity: '荣国府贾代善之妻，贾赦、贾政、贾敏之母，贾宝玉的祖母。慈祥和蔼，疼爱孙辈，是贾府的最高权威。',
+                relations: '与贾代善为夫妻；贾赦、贾政、贾敏之母；贾宝玉、林黛玉、薛宝钗等孙辈的祖母；深受全家敬重。',
+                chapters: '第二回「贾夫人仙逝扬州城 冷子兴演说荣国府」正式出场。',
+                family: '贾',
+                order: 7
+            },
+            'jia-lian': {
+                name: '贾琏',
+                identity: '贾赦之子，王熙凤之夫。风流成性，贪财好色，但处事圆滑，是贾府对外事务的主要经办人。',
+                relations: '与王熙凤为夫妻，关系复杂；与尤二姐有私情；与鲍二家的有染；是贾赦与邢夫人之子。',
+                chapters: '第二回首次提及，第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '贾',
+                order: 8
+            },
+            'shi-xiangyun': {
+                name: '史湘云',
+                identity: '贾母娘家史家的千金，性格豪爽直率，开朗活泼，才思敏捷，有「假小子」之称。',
+                relations: '与贾宝玉为表兄妹，关系亲密；与林黛玉、薛宝钗交好；与翠缕主仆情深。',
+                chapters: '第二十回「王熙凤正言弹妒意 林黛玉俏语谑娇音」正式出场。',
+                family: '史',
+                order: 9
+            },
+            'xue-pan': {
+                name: '薛蟠',
+                identity: '薛宝钗之兄，人称「呆霸王」。性格粗鄙，不学无术，仗势欺人，因人命官司投奔贾府。',
+                relations: '与薛宝钗为兄妹；与夏金桂成婚；与柳湘莲有恩怨；是薛姨妈之子，王夫人之外甥。',
+                chapters: '第四回「薄命女偏逢薄命郎 葫芦僧乱判葫芦案」正式出场。',
+                family: '薛',
+                order: 10
+            },
+            'qing-wen': {
+                name: '晴雯',
+                identity: '贾宝玉房中的大丫鬟，容貌出众，针线活极好。性格刚烈，心高气傲，不甘于奴才地位。',
+                relations: '与贾宝玉为主仆关系，深受信任；与袭人同为宝玉大丫鬟，关系微妙；与坠儿等有主仆之谊。',
+                chapters: '第五回「游幻境指迷十二钗 饮仙醪曲演红楼梦」首次提及，第八回「比通灵金莺微露意 探宝钗黛玉半含酸」正式出场。',
+                family: '丫鬟',
+                order: 11
+            },
+            'xi-ren': {
+                name: '袭人',
+                identity: '贾宝玉房中的大丫鬟，原名花珍珠。性格温顺，处事稳重，深得王夫人信任，被内定为宝玉的姨娘。',
+                relations: '与贾宝玉为主仆关系，关系亲密；与晴雯同为宝玉大丫鬟；与王夫人、凤姐等掌权者关系密切。',
+                chapters: '第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '丫鬟',
+                order: 12
+            },
+            'zi-juan': {
+                name: '紫鹃',
+                identity: '林黛玉的贴身丫鬟，原名鹦哥。聪慧机敏，对黛玉忠心耿耿，是黛玉在贾府最亲近的人。',
+                relations: '与林黛玉为主仆关系，情同姐妹；与雪雁同为黛玉丫鬟；关心黛玉与宝玉的感情。',
+                chapters: '第三回「贾雨村夤缘复旧职 林黛玉抛父进京都」正式出场。',
+                family: '丫鬟',
+                order: 13
+            },
+            'ying-ge': {
+                name: '莺儿',
+                identity: '薛宝钗的贴身丫鬟，原名黄金莺。手巧心灵，擅长打络子、编花篮等女红。',
+                relations: '与薛宝钗为主仆关系，深得信任；与宝玉房中的丫鬟相熟；是宝钗的得力助手。',
+                chapters: '第七回「送宫花贾琏戏熙凤 宴宁府宝玉会秦钟」正式出场。',
+                family: '丫鬟',
+                order: 14
+            },
+            'ping-er': {
+                name: '平儿',
+                identity: '王熙凤的陪嫁丫鬟，贾琏的通房大丫鬟。性格温和，处事公正，在凤姐与贾琏之间周旋。',
+                relations: '与王熙凤为主仆关系，深得信任；与贾琏有夫妻关系；在贾府上下人缘极好。',
+                chapters: '第六回「贾宝玉初试云雨情 刘姥姥一进荣国府」正式出场。',
+                family: '丫鬟',
+                order: 15
+            }
+        };
+        
+        // 将人物数据转换为数组，便于翻阅
+        const characterArray = Object.values(characterData).sort((a, b) => a.order - b.order);
+        let currentCharacterIndex = 0;
+        
+        // 初始化人物卡牌弹窗
+        const characterCardModal = new bootstrap.Modal(document.getElementById('characterCardModal'));
+        
+        // 更新卡牌内容
+        function updateCharacterCard(index) {
+            const character = characterArray[index];
+            if (character) {
+                document.getElementById('characterName').textContent = character.name;
+                document.getElementById('characterIdentity').textContent = character.identity;
+                document.getElementById('characterRelations').textContent = character.relations;
+                document.getElementById('characterChapters').textContent = character.chapters;
+                document.getElementById('cardCounter').textContent = `${index + 1} / ${characterArray.length}`;
+                
+                // 更新按钮状态
+                document.getElementById('prevCharacter').disabled = index === 0;
+                document.getElementById('nextCharacter').disabled = index === characterArray.length - 1;
+            }
+        }
+        
+        // 绑定人物节点点击事件
+        document.querySelectorAll('.character-node').forEach(node => {
+            node.addEventListener('click', function() {
+                const characterId = this.getAttribute('data-character');
+                const character = characterData[characterId];
+                
+                if (character) {
+                    currentCharacterIndex = characterArray.findIndex(c => c.name === character.name);
+                    updateCharacterCard(currentCharacterIndex);
+                    characterCardModal.show();
+                }
+            });
+        });
+        
+        // 上一个按钮
+        document.getElementById('prevCharacter').addEventListener('click', function() {
+            if (currentCharacterIndex > 0) {
+                currentCharacterIndex--;
+                updateCharacterCard(currentCharacterIndex);
+            }
+        });
+        
+        // 下一个按钮
+        document.getElementById('nextCharacter').addEventListener('click', function() {
+            if (currentCharacterIndex < characterArray.length - 1) {
+                currentCharacterIndex++;
+                updateCharacterCard(currentCharacterIndex);
+            }
+        });
+        
+        // 键盘导航支持
+        document.getElementById('characterCardModal').addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                if (currentCharacterIndex > 0) {
+                    currentCharacterIndex--;
+                    updateCharacterCard(currentCharacterIndex);
+                }
+            } else if (e.key === 'ArrowRight') {
+                if (currentCharacterIndex < characterArray.length - 1) {
+                    currentCharacterIndex++;
+                    updateCharacterCard(currentCharacterIndex);
+                }
+            }
+        });
+        
+        // ===== 资源库页面交互优化 =====
+        
+        // 筛选按钮交互
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有active状态
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // 添加当前按钮active状态
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                filterResources(filter);
+            });
+        });
+        
+        // 资源筛选功能
+        function filterResources(category) {
+            const items = document.querySelectorAll('.resource-item');
+            
+            items.forEach((item, index) => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    // 重新触发动画
+                    const card = item.querySelector('.resource-card');
+                    card.classList.remove('visible');
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 100);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // 下载按钮交互
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                showDownloadToast();
+            });
+        });
+        
+        // 显示下载反馈弹窗
+        function showDownloadToast() {
+            const toast = document.getElementById('downloadToast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 资源卡片滚动淡入动画
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // 观察所有资源卡片
+        document.querySelectorAll('.resource-card').forEach(card => {
+            observer.observe(card);
+        });
+        
+        // 图片渐进式加载
+        document.querySelectorAll('.resource-image-wrapper img').forEach(img => {
+            img.classList.add('loading');
+            img.addEventListener('load', function() {
+                this.classList.remove('loading');
+            });
+        });
+    </script>
+</body>
+</html>
