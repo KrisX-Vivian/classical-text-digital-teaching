@@ -5,6 +5,37 @@
  * ============================================
  */
 
+/* ===== 资源库全局背景：动态山水视频底纹 ===== */
+.page-bg-video {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.page-bg-video::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(250, 248, 245, 0.3) 0%,
+        rgba(250, 248, 245, 0.1) 50%,
+        rgba(250, 248, 245, 0.4) 100%
+    );
+    pointer-events: none;
+}
+
+.page-bg-video-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.15; /* 控制在 15% 左右，保证内容清晰可读 */
+    pointer-events: none;
+    filter: sepia(10%) saturate(80%); /* 添加轻微复古色调 */
+}
+
 /* ===== 筛选导航区样式 ===== */
 .filter-nav-section {
     background: #E8E5E1;
@@ -23,29 +54,29 @@
 
 /* 国风筛选按钮 */
 .filter-btn {
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-family: var(--font-serif);
     font-size: 15px;
     padding: 10px 24px;
     background: #FFFAF0;
-    border: 1px solid #8B4513;
-    border-radius: 8px;
+    border: 1px solid var(--color-ink-primary);
+    border-radius: var(--border-radius-md);
     color: #5D3A1A;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-fast) ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
 }
 
 .filter-btn:hover {
     background: rgba(139, 69, 19, 0.08);
-    border-color: #DC143C;
-    color: #DC143C;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
 }
 
 .filter-btn.active {
-    background: #DC143C;
-    border-color: #DC143C;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
     color: #FFFAF0;
 }
 
@@ -121,7 +152,7 @@
 /* 卡片内容区 */
 .resource-card .card-body {
     padding: 1.25rem;
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-family: var(--font-serif);
 }
 
 /* 资源名称 - 二级标题 */
@@ -135,7 +166,7 @@
 
 /* 核心文本名、作者名加粗 */
 .resource-card .card-title .highlight {
-    color: #8B4513;
+    color: var(--color-ink-primary);
     font-weight: 700;
 }
 
@@ -170,7 +201,7 @@
     flex-wrap: wrap;
     gap: 12px;
     font-size: 0.8rem;
-    color: #999;
+    color: #666;
     margin-bottom: 1rem;
     padding-top: 0.75rem;
     border-top: 1px dashed rgba(139, 69, 19, 0.15);
@@ -212,32 +243,31 @@
 
 /* 操作按钮 */
 .resource-card .btn {
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    font-family: var(--font-serif);
     font-size: 0.9rem;
     padding: 8px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-fast) ease;
 }
 
 .resource-card .btn-outline-primary {
-    border-color: #8B4513;
-    color: #8B4513;
+    border-color: var(--color-ink-primary);
+    color: var(--color-ink-primary);
 }
 
 .resource-card .btn-outline-primary:hover {
-    background: #8B4513;
-    border-color: #8B4513;
+    background: var(--color-ink-primary);
     color: #FFFAF0;
 }
 
 .resource-card .btn-primary {
-    background: #8B4513;
-    border-color: #8B4513;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
 }
 
 .resource-card .btn-primary:hover {
-    background: #6B340D;
-    border-color: #6B340D;
+    background: #B8191A;
+    border-color: #B8191A;
 }
 
 /* ===== 加载动画 ===== */
@@ -269,16 +299,16 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     background: #FFFAF0;
-    border: 2px solid #8B4513;
-    border-radius: 12px;
-    padding: 24px 40px;
+    border: 2px solid var(--color-ink-primary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg) 40px;
     text-align: center;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
     z-index: 9999;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+    transition: all var(--transition-fast) ease;
+    font-family: var(--font-serif);
 }
 
 .download-toast.show {
@@ -295,7 +325,7 @@
 }
 
 .download-toast.error i {
-    color: #DC143C;
+    color: var(--color-accent);
 }
 
 .download-toast .toast-message {

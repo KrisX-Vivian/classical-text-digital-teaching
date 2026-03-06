@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="assets/css/navbar-advanced.css?v=2">
     <!-- 引入题库与AI工具页面优化样式 -->
     <link rel="stylesheet" href="assets/css/exercises-optimized.css">
+    <!-- 引入卷轴徐展动画样式 -->
+    <link rel="stylesheet" href="assets/css/scroll-unfolding.css?v=1">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -33,6 +35,13 @@
             </div>
         </div>
     </nav>
+
+    <!-- 页面动态山水背景视频 -->
+    <div class="page-bg-video">
+        <video class="page-bg-video-media" autoplay muted loop playsinline preload="metadata">
+            <source src="assets/videos/LandscapePainting.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <!-- 页面标题 -->
     <div class="page-header">
@@ -119,6 +128,24 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 互动小游戏模块 -->
+                <div class="interactive-game-card delay-3">
+                    <div class="game-header">
+                        <h3 class="game-title">
+                            <i class="bi bi-controller me-2"></i>our teacher 古典文学互动小游戏
+                        </h3>
+                        <p class="game-description">用于古典文本数字化教学的互动小游戏</p>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-icon-wrapper">
+                            <i class="bi bi-gamepad game-icon"></i>
+                        </div>
+                        <button class="game-btn" onclick="openGame()" title="在新标签页打开小游戏">
+                            <i class="bi bi-play-circle me-2"></i>开始游戏
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- 分隔线 -->
@@ -180,6 +207,14 @@
         
         // 后端API代理地址（需部署后端服务后配置）
         const BACKEND_API_URL = '/api/ai/chat';
+        
+        // 互动小游戏链接
+        const GAME_LINK = 'https://api.ourteacher.cc/api/html/detail?md5=d2bc5bf73918f968f1bc66cd95fcc7b0&user_id=10029784';
+        
+        // 打开小游戏函数
+        function openGame() {
+            window.open(GAME_LINK, '_blank');
+        }
         
         async function sendToDoubao() {
             const userInput = document.getElementById('userInput').value.trim();
@@ -294,8 +329,8 @@
             });
         }, exerciseObserverOptions);
         
-        // 观察所有习题卡片
-        document.querySelectorAll('.exercise-card').forEach(card => {
+        // 观察所有习题卡片和互动小游戏模块
+        document.querySelectorAll('.exercise-card, .interactive-game-card').forEach(card => {
             exerciseObserver.observe(card);
         });
         
@@ -317,5 +352,7 @@
             });
         });
     </script>
+    <!-- 引入卷轴徐展动画脚本 -->
+    <script src="assets/js/scroll-unfolding.js"></script>
 </body>
 </html>

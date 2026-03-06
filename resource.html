@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="assets/css/navbar-advanced.css?v=2">
     <!-- 引入资源库优化样式 -->
     <link rel="stylesheet" href="assets/css/resource-optimized.css">
+    <!-- 引入卷轴徐展动画样式 -->
+    <link rel="stylesheet" href="assets/css/scroll-unfolding.css?v=1">
     
     <!-- 人物关系网交互样式 -->
     <style>
@@ -411,6 +413,13 @@
         </div>
     </nav>
 
+    <!-- 资源库页面动态山水背景视频 -->
+    <div class="page-bg-video">
+        <video class="page-bg-video-media" autoplay muted loop playsinline preload="metadata">
+            <source src="assets/videos/LandscapePainting.mp4" type="video/mp4">
+        </video>
+    </div>
+
     <!-- 页面标题 -->
     <div class="page-header">
         <div class="container">
@@ -434,6 +443,9 @@
                 </button>
                 <button class="filter-btn" data-filter="special">
                     <i class="bi bi-star"></i>专题推荐
+                </button>
+                <button class="filter-btn" data-filter="ppt">
+                    <i class="bi bi-easel"></i>PPT教学资源
                 </button>
             </div>
         </div>
@@ -520,6 +532,36 @@
                         <button class="btn btn-primary download-btn">
                             <i class="bi bi-download"></i> 下载
                         </button>
+                    </div>
+                </div>
+            </div>
+            <!-- 《红楼梦教学方案》PPT 教学资源卡片 -->
+            <div class="col-md-4 resource-item" data-category="ppt">
+                <div class="resource-card delay-1">
+                    <div class="resource-image-wrapper">
+                        <!-- 如果后续有专门封面图，可替换为真实封面 -->
+                        <img src="assets/images/hongloumeng-cover.jpg" alt="《红楼梦教学方案》PPT封面" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <span class="resource-type-tag">教学资源 · PPT</span>
+                        <h5 class="card-title">《<span class="highlight">红楼梦教学方案</span>》PPT</h5>
+                        <div class="resource-meta">
+                            <span><i class="bi bi-easel"></i> 课堂教学演示</span>
+                            <span><i class="bi bi-layers"></i> 古典文学数字化教学</span>
+                            <span><i class="bi bi-filetype-ppt"></i> 教学课件</span>
+                        </div>
+                        <p class="card-text">用于《红楼梦》专题的古典文学数字化教学演示文稿，可辅助课堂讲解与学生理解文本结构与人物关系。</p>
+                        <div class="resource-tooltip">
+                            本 PPT 适用于《红楼梦》相关课程教学，包含章节结构梳理、人物关系示意、文本片段赏析等内容，便于教师在多媒体课堂中进行演示与板块式讲解。
+                        </div>
+                        <!-- 在线预览：新标签页打开 PPT 文件 -->
+                        <a class="btn btn-outline-primary me-2" href="assets/teaching_resources/《红楼梦》PPT设计示例.pptx" target="_blank" rel="noopener noreferrer">
+                            <i class="bi bi-eye"></i> 在线预览
+                        </a>
+                        <!-- 下载：触发浏览器下载，同时保留原有下载反馈交互 -->
+                        <a class="btn btn-primary download-btn" href="assets/teaching_resources/《红楼梦》PPT设计示例.pptx" download>
+                            <i class="bi bi-download"></i> 下载 PPT
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1096,5 +1138,7 @@
             });
         });
     </script>
+    <!-- 引入卷轴徐展动画脚本 -->
+    <script src="assets/js/scroll-unfolding.js"></script>
 </body>
 </html>

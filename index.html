@@ -6,6 +6,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="description" content="典籍新诠——以AI赋能古典文学教学，提供《红楼梦》等古籍数字化资源、沉浸式教学视频与智能题库">
+    <meta property="og:title" content="典籍新诠 | 古典文本数字化教学平台">
+    <meta property="og:image" content="assets/images/og-cover.jpg">
     <title>古典文本数字化教学平台 - 首页</title>
     <!-- 引入Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +21,10 @@
     <link rel="stylesheet" href="assets/css/navbar-advanced.css?v=2">
     <!-- 引入首页优化样式 - 基于01_index_首页优化.txt -->
     <link rel="stylesheet" href="assets/css/index-optimized.css?version=20250228">
+    <!-- 引入首页主题覆盖 - 新中式科技古典风（仅视觉升级） -->
+    <link rel="stylesheet" href="assets/css/index-xinzhongshi.css?v=1">
+    <!-- 引入卷轴徐展动画样式 -->
+    <link rel="stylesheet" href="assets/css/scroll-unfolding.css?v=1">
     
     <!-- 页面专属高级样式 -->
     <style>
@@ -25,6 +32,135 @@
         body {
             font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
             color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* ===== 渐进式开场动画样式 ===== */
+        .page-loading {
+            position: fixed;
+            inset: 0;
+            background: #FAF8F5;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        .page-loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #8B4513;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: logoFadeIn 1.5s ease-out forwards;
+        }
+        
+        @keyframes logoFadeIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* 开场动画元素初始状态 */
+        .navbar { transform: translateY(-100%); opacity: 0; }
+        .carousel-banner-content h2 { transform: scale(0.8); opacity: 0; }
+        .carousel-banner-content p { transform: translateY(30px); opacity: 0; }
+        .carousel-banner-content .btn { transform: translateY(50px); opacity: 0; }
+        .hero-section { opacity: 0; }
+        .feature-card { opacity: 0; transform: translateY(30px); }
+        
+        /* 动态山水背景淡入动画 */
+        .hero-bg-video-media {
+            opacity: 0;
+            transition: opacity 1.5s ease-out 0.5s;
+        }
+        
+        .hero-bg-video-media.loaded {
+            opacity: 0.15;
+        }
+        
+        /* 动画元素样式 */
+        .animate-title {
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-subtitle {
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+        }
+        
+        .animate-btn {
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s;
+        }
+        
+        .animate-hero {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1) 1.2s;
+        }
+        
+        .animate-hero-title {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.5s;
+        }
+        
+        .animate-hero-desc {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.8s;
+        }
+        
+        .animate-hero-btn {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 2.1s;
+        }
+        
+        /* 动画激活状态 */
+        .animate-title.animated,
+        .animate-subtitle.animated,
+        .animate-btn.animated,
+        .animate-hero.animated,
+        .animate-hero-title.animated,
+        .animate-hero-desc.animated,
+        .animate-hero-btn.animated {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        
+        /* 导航栏动画 */
+        .navbar {
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+        }
+        
+        .navbar.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* 探索按钮呼吸效果 */
+        .animate-btn.animated {
+            animation: breathing 3s ease-in-out infinite;
+        }
+        
+        @keyframes breathing {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         /* ===== 轮播图高级样式 ===== */
@@ -42,6 +178,41 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
             opacity: 0.03;
             pointer-events: none;
+        }
+
+        /* ===== 轮播图视频背景 ===== */
+        .carousel-banner {
+            height: 500px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .carousel-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            /* 边缘暗化、中间更透：尽量不遮挡视频主体（人物/手部） */
+            background:
+                radial-gradient(900px 420px at 50% 45%, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.28) 70%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.12));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .carousel-banner-content {
+            position: relative;
+            z-index: 2;
         }
         
         /* ===== Hero区域高级排版 ===== */
@@ -63,18 +234,15 @@
             font-family: 'Noto Serif SC', serif;
         }
         
-        /* ===== 卡片高级质感 ===== */
+        /* ===== 卡片基础排版（质感由主题覆盖层负责） ===== */
         .feature-card, .team-card {
             padding: 30px 15px;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
         
         .feature-card:hover, .team-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
         .feature-icon {
@@ -83,19 +251,16 @@
             margin-bottom: 15px;
         }
         
-        /* ===== 按钮高级样式 ===== */
+        /* ===== 按钮基础交互（具体配色由主题覆盖层负责） ===== */
         .btn-danger {
-            background-color: #dc3545;
-            border: none;
-            border-radius: 4px;
+            border-radius: 10px;
             padding: 12px 30px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.35s ease;
             font-family: 'Noto Serif SC', serif;
         }
         
         .btn-danger:hover {
-            background-color: #b02a37;
-            transform: scale(1.05);
+            transform: translateY(-1px);
         }
         
         /* ===== 团队介绍高级样式 ===== */
@@ -152,8 +317,13 @@
     </style>
 </head>
 <body>
+    <!-- 开场加载动画 -->
+    <div class="page-loading" id="pageLoading">
+        <div class="loading-logo">典籍新诠</div>
+    </div>
+
     <!-- 顶部导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 典籍新诠
@@ -188,7 +358,7 @@
          尺寸建议：1920x500px 或 16:9 比例
          风格：庄重典雅、黄褐色调、书卷气息
     ====================================================================== -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="margin-top: 70px;">
+    <div id="carouselExampleIndicators" class="carousel slide scroll-unfolding paper-texture" data-bs-ride="carousel" style="margin-top: 70px;">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -197,31 +367,40 @@
         <div class="carousel-inner">
             <!-- 【轮播图1 - 红楼梦】已替换为本地高清图 -->
             <div class="carousel-item active">
-                <div style="height: 500px; background: url('assets/images/banner-hongloumeng.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center;">
-                    <div class="text-center text-white p-5">
-                        <h2 class="display-4 fw-bold mb-4">典籍新诠・《红楼梦》数字人文解读</h2>
-                        <p class="lead mb-4">古典文本数字化教学平台</p>
-                        <a href="resource.html" class="btn btn-danger btn-lg">探索专题</a>
+                <div class="carousel-banner">
+                    <video class="carousel-video" autoplay muted loop playsinline preload="metadata">
+                        <source src="assets/videos/banner1.mp4" type="video/mp4">
+                    </video>
+                    <div class="carousel-banner-content text-center text-white p-5 scroll-content">
+                        <h2 class="display-4 fw-bold mb-4 animate-title brush-text" style="--delay: 1">典籍新诠・《红楼梦》数字人文解读</h2>
+                        <p class="lead mb-4 animate-subtitle brush-text" style="--delay: 2">古典文本数字化教学平台</p>
+                        <a href="resource.html" class="btn btn-danger btn-lg animate-btn breathing-element">探索专题</a>
                     </div>
                 </div>
             </div>
             <!-- 【轮播图2 - 聊斋志异】已替换为本地高清图 -->
             <div class="carousel-item">
-                <div style="height: 500px; background: url('assets/images/banner-liaozhai.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center;">
-                    <div class="text-center text-white p-5">
-                        <h2 class="display-4 fw-bold mb-4">典籍新诠・《聊斋志异》数字人文解读</h2>
-                        <p class="lead mb-4">古典文本数字化教学平台</p>
-                        <a href="resource.html" class="btn btn-danger btn-lg">探索专题</a>
+                <div class="carousel-banner">
+                    <video class="carousel-video" autoplay muted loop playsinline preload="metadata">
+                        <source src="assets/videos/banner2.mp4" type="video/mp4">
+                    </video>
+                    <div class="carousel-banner-content text-center text-white p-5 scroll-content">
+                        <h2 class="display-4 fw-bold mb-4 animate-title brush-text" style="--delay: 1">典籍新诠・《聊斋志异》数字人文解读</h2>
+                        <p class="lead mb-4 animate-subtitle brush-text" style="--delay: 2">古典文本数字化教学平台</p>
+                        <a href="resource.html" class="btn btn-danger btn-lg animate-btn breathing-element">探索专题</a>
                     </div>
                 </div>
             </div>
             <!-- 【轮播图3 - 儒林外史】已替换为本地高清图 -->
             <div class="carousel-item">
-                <div style="height: 500px; background: url('assets/images/banner-rulin.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center;">
-                    <div class="text-center text-white p-5">
-                        <h2 class="display-4 fw-bold mb-4">典籍新诠・《儒林外史》数字人文解读</h2>
-                        <p class="lead mb-4">古典文本数字化教学平台</p>
-                        <a href="resource.html" class="btn btn-danger btn-lg">探索专题</a>
+                <div class="carousel-banner">
+                    <video class="carousel-video" autoplay muted loop playsinline preload="metadata">
+                        <source src="assets/videos/banner3.mp4" type="video/mp4">
+                    </video>
+                    <div class="carousel-banner-content text-center text-white p-5 scroll-content">
+                        <h2 class="display-4 fw-bold mb-4 animate-title brush-text" style="--delay: 1">典籍新诠・《儒林外史》数字人文解读</h2>
+                        <p class="lead mb-4 animate-subtitle brush-text" style="--delay: 2">古典文本数字化教学平台</p>
+                        <a href="resource.html" class="btn btn-danger btn-lg animate-btn breathing-element">探索专题</a>
                     </div>
                 </div>
             </div>
@@ -237,51 +416,57 @@
     </div>
 
     <!-- Hero核心视觉区 -->
-    <section class="hero-section mt-5">
-        <div class="container">
-            <h1 class="hero-title">典籍新诠：古典文本的数字化教学探索</h1>
-            <p class="hero-desc">以数字技术激活古典文本生命力，融合《红楼梦》等经典古籍与沉浸式教学、智能题库，打造专业的古典文学学习平台。</p>
-            <a href="resource.html" class="btn btn-danger btn-lg">进入资源库 <i class="bi bi-arrow-right"></i></a>
+    <section class="hero-section mt-5 animate-hero scroll-unfolding paper-texture">
+        <!-- 动态山水背景视频（与资源库页统一） -->
+        <div class="hero-bg-video">
+            <video class="hero-bg-video-media" autoplay muted loop playsinline preload="metadata">
+                <source src="assets/videos/LandscapePainting.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="container scroll-content">
+            <h1 class="hero-title animate-hero-title brush-text" style="--delay: 3">典籍新诠：古典文本的数字化教学探索</h1>
+            <p class="hero-desc animate-hero-desc brush-text" style="--delay: 4">以数字技术激活古典文本生命力，融合《红楼梦》等经典古籍与沉浸式教学、智能题库，打造专业的古典文学学习平台。</p>
+            <a href="resource.html" class="btn btn-danger btn-lg animate-hero-btn breathing-element">进入资源库 <i class="bi bi-arrow-right"></i></a>
         </div>
     </section>
 
     <!-- 项目亮点模块 -->
-    <section class="container py-10 mt-5">
-        <div class="row text-center mb-5">
-            <h2 class="display-5">项目核心特色</h2>
-            <p class="text-muted">以数字化方式重构古典文学学习体验</p>
+    <section class="container py-10 mt-5 scroll-unfolding paper-texture">
+        <div class="row text-center mb-5 scroll-content">
+            <h2 class="display-5 brush-text" style="--delay: 5">项目核心特色</h2>
+            <p class="text-muted brush-text" style="--delay: 6">以数字化方式重构古典文学学习体验</p>
         </div>
-        <div class="row g-4 feature-row">
+        <div class="row g-4 feature-row scroll-content">
             <!-- 亮点1：丰富资源库 -->
             <div class="col-md-3">
-                <div class="feature-card text-center fade-in delay-1">
+                <div class="feature-card text-center fade-in delay-1 breathing-element">
                     <i class="bi bi-book-half feature-icon"></i>
-                    <h3 class="h5">丰富古籍资源</h3>
-                    <p class="text-muted">收录《红楼梦》等<span class="feature-keyword">经典古籍</span>，提供<span class="feature-keyword">数字化专题解读</span>。</p>
+                    <h3 class="h5 brush-text" style="--delay: 7">丰富古籍资源</h3>
+                    <p class="text-muted brush-text" style="--delay: 8">收录《红楼梦》等<span class="feature-keyword">经典古籍</span>，提供<span class="feature-keyword">数字化专题解读</span>。</p>
                 </div>
             </div>
             <!-- 亮点2：沉浸式教学视频 -->
             <div class="col-md-3">
-                <div class="feature-card text-center fade-in delay-2">
+                <div class="feature-card text-center fade-in delay-2 breathing-element">
                     <i class="bi bi-play-circle feature-icon"></i>
-                    <h3 class="h5">沉浸式教学视频</h3>
-                    <p class="text-muted"><span class="feature-keyword">古风质感</span>教学视频，专业讲师深度解析文本内涵。</p>
+                    <h3 class="h5 brush-text" style="--delay: 9">沉浸式教学视频</h3>
+                    <p class="text-muted brush-text" style="--delay: 10"><span class="feature-keyword">古风质感</span>教学视频，专业讲师深度解析文本内涵。</p>
                 </div>
             </div>
             <!-- 亮点3：智能题库 -->
             <div class="col-md-3">
-                <div class="feature-card text-center fade-in delay-3">
+                <div class="feature-card text-center fade-in delay-3 breathing-element">
                     <i class="bi bi-question-circle feature-icon"></i>
-                    <h3 class="h5">智能互动题库</h3>
-                    <p class="text-muted">多题型精选题库，<span class="feature-keyword">即时反馈</span>答案与深度解析。</p>
+                    <h3 class="h5 brush-text" style="--delay: 11">智能互动题库</h3>
+                    <p class="text-muted brush-text" style="--delay: 12">多题型精选题库，<span class="feature-keyword">即时反馈</span>答案与深度解析。</p>
                 </div>
             </div>
             <!-- 亮点4：专属AI助手 -->
             <div class="col-md-3">
-                <div class="feature-card text-center fade-in delay-4">
+                <div class="feature-card text-center fade-in delay-4 breathing-element">
                     <i class="bi bi-robot feature-icon"></i>
-                    <h3 class="h5">专属AI助手</h3>
-                    <p class="text-muted">聚焦项目资料，提供比通用AI更<span class="feature-keyword">专业的解答</span>。</p>
+                    <h3 class="h5 brush-text" style="--delay: 13">专属AI助手</h3>
+                    <p class="text-muted brush-text" style="--delay: 14">聚焦项目资料，提供比通用AI更<span class="feature-keyword">专业的解答</span>。</p>
                 </div>
             </div>
         </div>
@@ -415,7 +600,105 @@
     <!-- 引入JS依赖 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ===== 轮播图高级配置 =====
+        // ===== 渐进式开场动画 =====
+        function initPageAnimation() {
+            const pageLoading = document.getElementById('pageLoading');
+            const navbar = document.querySelector('.navbar');
+            const heroBgVideo = document.querySelector('.hero-bg-video-media');
+            
+            // 检查是否是首次访问（使用sessionStorage）
+            const hasVisited = sessionStorage.getItem('hasVisited');
+            
+            if (!hasVisited) {
+                // 首次访问：执行完整开场动画
+                sessionStorage.setItem('hasVisited', 'true');
+                
+                // 步骤1：动态山水背景淡入（0.5秒后开始）
+                setTimeout(() => {
+                    if (heroBgVideo) {
+                        heroBgVideo.classList.add('loaded');
+                    }
+                }, 500);
+                
+                // 步骤2：导航栏滑入（1秒后开始）
+                setTimeout(() => {
+                    if (navbar) {
+                        navbar.classList.add('animated');
+                    }
+                }, 1000);
+                
+                // 步骤3：轮播图标题浮现（1.5秒后开始）
+                setTimeout(() => {
+                    const animateTitles = document.querySelectorAll('.animate-title');
+                    const animateSubtitles = document.querySelectorAll('.animate-subtitle');
+                    const animateBtns = document.querySelectorAll('.animate-btn');
+                    
+                    animateTitles.forEach(title => title.classList.add('animated'));
+                    setTimeout(() => {
+                        animateSubtitles.forEach(subtitle => subtitle.classList.add('animated'));
+                    }, 300);
+                    setTimeout(() => {
+                        animateBtns.forEach(btn => btn.classList.add('animated'));
+                    }, 600);
+                }, 1500);
+                
+                // 步骤4：Hero区域淡入（2.5秒后开始）
+                setTimeout(() => {
+                    const animateHero = document.querySelector('.animate-hero');
+                    const animateHeroTitle = document.querySelector('.animate-hero-title');
+                    const animateHeroDesc = document.querySelector('.animate-hero-desc');
+                    const animateHeroBtn = document.querySelector('.animate-hero-btn');
+                    
+                    if (animateHero) animateHero.classList.add('animated');
+                    setTimeout(() => {
+                        if (animateHeroTitle) animateHeroTitle.classList.add('animated');
+                    }, 300);
+                    setTimeout(() => {
+                        if (animateHeroDesc) animateHeroDesc.classList.add('animated');
+                    }, 600);
+                    setTimeout(() => {
+                        if (animateHeroBtn) animateHeroBtn.classList.add('animated');
+                    }, 900);
+                }, 2500);
+                
+                // 步骤5：触发卷轴徐展效果（2.8秒后）
+                setTimeout(() => {
+                    const scrollElements = document.querySelectorAll('.scroll-unfolding');
+                    scrollElements.forEach((element, index) => {
+                        setTimeout(() => {
+                            element.classList.add('active');
+                        }, index * 200); // 每个元素间隔200ms
+                    });
+                }, 2800);
+                
+                // 步骤6：隐藏加载动画（3秒后）
+                setTimeout(() => {
+                    if (pageLoading) {
+                        pageLoading.classList.add('hidden');
+                        setTimeout(() => {
+                            pageLoading.style.display = 'none';
+                        }, 800);
+                    }
+                }, 3000);
+                
+            } else {
+                // 非首次访问：直接显示所有内容
+                if (heroBgVideo) heroBgVideo.classList.add('loaded');
+                if (navbar) navbar.classList.add('animated');
+                
+                const animateElements = document.querySelectorAll('.animate-title, .animate-subtitle, .animate-btn, .animate-hero, .animate-hero-title, .animate-hero-desc, .animate-hero-btn');
+                animateElements.forEach(el => el.classList.add('animated'));
+                
+                if (pageLoading) {
+                    pageLoading.style.display = 'none';
+                }
+            }
+        }
+        
+        // 页面加载完成后初始化动画
+        window.addEventListener('DOMContentLoaded', initPageAnimation);
+        
+        // ===== 轮播图配置优化 =====
         const carousel = new bootstrap.Carousel('#carouselExampleIndicators', {
             interval: 5000,      // 5秒切换，更从容
             touch: true,         // 移动端触摸滑动
@@ -569,5 +852,7 @@
             }
         }
     </script>
+    <!-- 引入卷轴徐展动画脚本 -->
+    <script src="assets/js/scroll-unfolding.js"></script>
 </body>
 </html>

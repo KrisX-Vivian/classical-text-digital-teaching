@@ -14,6 +14,24 @@
     <link rel="stylesheet" href="assets/css/navbar-advanced.css?v=2">
     <!-- 引入教学视频页面优化样式 -->
     <link rel="stylesheet" href="assets/css/courses-optimized.css">
+    <!-- 引入卷轴徐展动画样式 -->
+    <link rel="stylesheet" href="assets/css/scroll-unfolding.css?v=1">
+    <!-- 新增：B站播放器防跳转样式 -->
+    <style>
+    /* 屏蔽B站播放器的跳转行为 */
+    .video-player-container iframe {
+        pointer-events: auto !important;
+    }
+    /* 修复模态框关闭时视频自动暂停 - 通过JS实现 */
+    #video8Modal iframe {
+        pointer-events: auto;
+    }
+    /* 适配播放器尺寸，避免控制栏被遮挡 */
+    .video-player-container {
+        height: 600px !important;
+        width: 100% !important;
+    }
+    </style>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -33,6 +51,13 @@
             </div>
         </div>
     </nav>
+
+    <!-- 页面动态山水背景视频 -->
+    <div class="page-bg-video">
+        <video class="page-bg-video-media" autoplay muted loop playsinline preload="metadata">
+            <source src="assets/videos/LandscapePainting.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <!-- 页面标题 -->
     <div class="page-header">
@@ -185,8 +210,127 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <!-- 视频5：红楼梦人物关系解读 -->
+            <div class="col-md-4 video-item" data-category="hongloumeng">
+                <div class="video-card delay-1">
+                    <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video5Modal">
+                        <img src="assets/images/video-5-cover.jpg" alt="红楼梦人物关系解读视频封面" loading="lazy">
+                        <div class="play-button"></div>
+                        <span class="video-duration">10:03</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">《<span class="keyword">红楼梦</span>》<span class="keyword">人物关系</span>深度解读</h5>
+                        <div class="video-meta">
+                            <span class="video-meta-tag"><i class="bi bi-person"></i>雷雨</span>
+                            <span class="video-meta-tag"><i class="bi bi-clock"></i>10:03</span>
+                            <span class="video-meta-tag"><i class="bi bi-mortarboard"></i>高中/大学</span>
+                        </div>
+                        <p class="card-text">系统梳理《红楼梦》四大家族的人物关系网络，帮助理解复杂的人物脉络。</p>
+                        <div class="video-actions">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#video5Modal">
+                                <i class="bi bi-play-fill"></i> 播放
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="bi bi-info-circle"></i> 详情
+                            </button>
+                            <button class="favorite-btn" title="收藏">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 视频6：蒲松龄《促织》高考文言文知识点精讲 -->
+            <div class="col-md-4 video-item" data-category="analysis">
+                <div class="video-card delay-2">
+                    <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video6Modal">
+                        <img src="assets/images/video-6-cover.jpg" alt="促织高考文言文知识点精讲视频封面" loading="lazy">
+                        <div class="play-button"></div>
+                        <span class="video-duration">17:31</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">蒲松龄《<span class="keyword">促织</span>》<span class="keyword">高考文言文</span>知识点精讲</h5>
+                        <div class="video-meta">
+                            <span class="video-meta-tag"><i class="bi bi-person"></i>王老师</span>
+                            <span class="video-meta-tag"><i class="bi bi-clock"></i>17:31</span>
+                            <span class="video-meta-tag"><i class="bi bi-mortarboard"></i>高考备考</span>
+                        </div>
+                        <p class="card-text">精讲《促织》中的高考文言文考点，包括实词、虚词、句式等核心知识点。</p>
+                        <div class="video-actions">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#video6Modal">
+                                <i class="bi bi-play-fill"></i> 播放
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="bi bi-info-circle"></i> 详情
+                            </button>
+                            <button class="favorite-btn" title="收藏">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 视频7：《儒林外史》知识梳理 -->
+            <div class="col-md-4 video-item" data-category="guide">
+                <div class="video-card delay-3">
+                    <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video7Modal">
+                        <img src="assets/images/video-7-cover.jpg" alt="儒林外史知识梳理视频封面" loading="lazy">
+                        <div class="play-button"></div>
+                        <span class="video-duration">7:47</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">《<span class="keyword">儒林外史</span>》<span class="keyword">知识梳理</span>与考点解析</h5>
+                        <div class="video-meta">
+                            <span class="video-meta-tag"><i class="bi bi-person"></i>林老师</span>
+                            <span class="video-meta-tag"><i class="bi bi-clock"></i>7:47</span>
+                            <span class="video-meta-tag"><i class="bi bi-mortarboard"></i>高中/大学</span>
+                        </div>
+                        <p class="card-text">系统梳理《儒林外史》的核心情节、人物形象和主题思想，把握考试重点。</p>
+                        <div class="video-actions">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#video7Modal">
+                                <i class="bi bi-play-fill"></i> 播放
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="bi bi-info-circle"></i> 详情
+                            </button>
+                            <button class="favorite-btn" title="收藏">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 视频8：《红楼梦》详解第一讲 -->
+            <div class="col-md-4 video-item" data-category="guide">
+                <div class="video-card delay-1">
+                    <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video8Modal">
+                        <img src="assets/images/hongloumeng-cover.jpg" alt="红楼梦详解第一讲视频封面" loading="lazy">
+                        <div class="play-button"></div>
+                        <span class="video-duration">36:07</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">《<span class="keyword">红楼梦</span>》<span class="keyword">详解</span>第一讲</h5>
+                        <div class="video-meta">
+                            <span class="video-meta-tag"><i class="bi bi-person"></i>陈老师</span>
+                            <span class="video-meta-tag"><i class="bi bi-clock"></i>36:07</span>
+                            <span class="video-meta-tag"><i class="bi bi-mortarboard"></i>系统课程</span>
+                        </div>
+                        <p class="card-text">深入浅出讲解《红楼梦》前三回内容，帮助理解小说的开篇布局与伏笔设置。</p>
+                        <div class="video-actions">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#video8Modal">
+                                <i class="bi bi-play-fill"></i> 播放
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="bi bi-info-circle"></i> 详情
+                            </button>
+                            <button class="favorite-btn" title="收藏">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
     
     <!-- 收藏反馈弹窗 -->
     <div class="feedback-toast" id="favoriteToast">
@@ -241,6 +385,112 @@
                     <div class="mt-4">
                         <h5 style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #8B4513; font-weight: 700; font-size: 1.1rem;">视频简介</h5>
                         <p style="color: #666; line-height: 1.8; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;">本视频探讨中学语文整本书阅读教学的现状、困境及突破策略，为教师提供实用的教学方法指导。</p>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background: #FFFAF0; border-top: 1px solid #8B4513;">
+                    <button type="button" class="btn" style="background: #8B4513; color: #FFFAF0; border-radius: 8px; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频5播放弹窗：红楼梦人物关系解读 -->
+    <div class="modal fade" id="video5Modal" tabindex="-1" aria-labelledby="video5ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #FFFAF0; border-bottom: 1px solid #8B4513;">
+                    <h1 class="modal-title fs-5" id="video5ModalLabel" style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #5D3A1A; font-weight: 700;">《红楼梦》人物关系深度解读</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background: #F5F0E8;">
+                    <div class="video-player-container">
+                        <video src="assets/videos/红楼梦人物关系解读.mp4" controls class="w-100"></video>
+                    </div>
+                    <div class="mt-4">
+                        <h5 style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #8B4513; font-weight: 700; font-size: 1.1rem;">视频简介</h5>
+                        <p style="color: #666; line-height: 1.8; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;">本视频系统梳理《红楼梦》四大家族的人物关系网络，通过图表和实例帮助学习者理解复杂的人物脉络，是深入阅读《红楼梦》的重要基础课程。</p>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background: #FFFAF0; border-top: 1px solid #8B4513;">
+                    <button type="button" class="btn" style="background: #8B4513; color: #FFFAF0; border-radius: 8px; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频6播放弹窗：蒲松龄《促织》高考文言文知识点精讲 -->
+    <div class="modal fade" id="video6Modal" tabindex="-1" aria-labelledby="video6ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #FFFAF0; border-bottom: 1px solid #8B4513;">
+                    <h1 class="modal-title fs-5" id="video6ModalLabel" style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #5D3A1A; font-weight: 700;">蒲松龄《促织》高考文言文知识点精讲</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background: #F5F0E8;">
+                    <div class="video-player-container">
+                        <video src="assets/videos/蒲松龄《促织》高考文言文知识点精讲.mp4" controls class="w-100"></video>
+                    </div>
+                    <div class="mt-4">
+                        <h5 style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #8B4513; font-weight: 700; font-size: 1.1rem;">视频简介</h5>
+                        <p style="color: #666; line-height: 1.8; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;">本视频精讲《促织》中的高考文言文考点，包括重点实词、虚词用法、特殊句式等核心知识点，结合历年高考真题进行针对性讲解，帮助学生高效备考。</p>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background: #FFFAF0; border-top: 1px solid #8B4513;">
+                    <button type="button" class="btn" style="background: #8B4513; color: #FFFAF0; border-radius: 8px; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频7播放弹窗：《儒林外史》知识梳理 -->
+    <div class="modal fade" id="video7Modal" tabindex="-1" aria-labelledby="video7ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #FFFAF0; border-bottom: 1px solid #8B4513;">
+                    <h1 class="modal-title fs-5" id="video7ModalLabel" style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #5D3A1A; font-weight: 700;">《儒林外史》知识梳理与考点解析</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background: #F5F0E8;">
+                    <div class="video-player-container">
+                        <video src="assets/videos/《儒林外史》知识梳理.mp4" controls class="w-100"></video>
+                    </div>
+                    <div class="mt-4">
+                        <h5 style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #8B4513; font-weight: 700; font-size: 1.1rem;">视频简介</h5>
+                        <p style="color: #666; line-height: 1.8; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;">本视频系统梳理《儒林外史》的核心情节、人物形象和主题思想，分析讽刺艺术手法，把握考试重点，是学习和备考《儒林外史》的高效指南。</p>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background: #FFFAF0; border-top: 1px solid #8B4513;">
+                    <button type="button" class="btn" style="background: #8B4513; color: #FFFAF0; border-radius: 8px; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频8播放弹窗：《红楼梦》详解第一讲 -->
+    <div class="modal fade" id="video8Modal" tabindex="-1" aria-labelledby="video8ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #FFFAF0; border-bottom: 1px solid #8B4513;">
+                    <h1 class="modal-title fs-5" id="video8ModalLabel" style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #5D3A1A; font-weight: 700;">《红楼梦》详解第一讲</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background: #F5F0E8;">
+                    <div class="video-player-container" style="position: relative; overflow: hidden; border-radius: 8px;">
+                        <iframe 
+                            src="//player.bilibili.com/player.html?bvid=BV1UdPtzpEQU&page=1&high_quality=1&danmaku=0&autoplay=0" 
+                            scrolling="no" 
+                            border="0" 
+                            frameborder="no" 
+                            framespacing="0" 
+                            allowfullscreen="true"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            class="w-100" 
+                            style="aspect-ratio: 16/9; border-radius: 8px; height: 600px; pointer-events: auto;">
+                        </iframe>
+                    </div>
+                    <div class="mt-4">
+                        <h5 style="font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif; color: #8B4513; font-weight: 700; font-size: 1.1rem;">视频简介</h5>
+                        <p style="color: #666; line-height: 1.8; font-family: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;">本视频深入浅出讲解《红楼梦》第一回内容，帮助理解小说的开篇布局与伏笔设置，是系统学习《红楼梦》系列课程的第一讲。</p>
                     </div>
                 </div>
                 <div class="modal-footer" style="background: #FFFAF0; border-top: 1px solid #8B4513;">
@@ -409,5 +659,7 @@
             }
         });
     </script>
+    <!-- 引入卷轴徐展动画脚本 -->
+    <script src="assets/js/scroll-unfolding.js"></script>
 </body>
 </html>

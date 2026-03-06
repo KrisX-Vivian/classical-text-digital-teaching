@@ -1,0 +1,434 @@
+/**
+ * 首页主题覆盖 - 新中式科技古典风（仅视觉升级，不改结构与功能）
+ * 作用范围：index.html（通过单独引入实现）
+ */
+
+:root {
+  /* 色彩：温暖棕 + 浅木色 + 米杏 + 淡咖啡，少量青灰点缀 */
+  --xz-ink-900: #5b3a24;   /* 深棕墨 */
+  --xz-ink-800: #6a4530;   /* 标题主色 */
+  --xz-ink-700: #7a5438;
+  --xz-mist-100: #f8f2e8;  /* 米杏宣纸 */
+  --xz-mist-200: #f2e4d2;  /* 浅木米色 */
+  --xz-slate-300: #c4d0cd; /* 低饱和青灰点缀 */
+  --xz-slate-500: #8fa2a0;
+  --xz-gold-300: #e2c79a;  /* 柔和淡金 */
+  --xz-gold-500: #c9a76a;
+
+  /* 组件质感 */
+  --xz-radius-sm: 10px;
+  --xz-radius-md: 14px;
+  --xz-radius-lg: 18px;
+  --xz-border: 1px solid rgba(91, 58, 36, 0.12);
+  --xz-border-strong: 1px solid rgba(201, 167, 106, 0.35);
+
+  --xz-shadow-sm: 0 6px 18px rgba(91, 58, 36, 0.10);
+  --xz-shadow-md: 0 14px 42px rgba(91, 58, 36, 0.16);
+  --xz-shadow-lg: 0 26px 80px rgba(91, 58, 36, 0.20);
+
+  --xz-glass: rgba(248, 242, 232, 0.72);
+  --xz-glass-strong: rgba(248, 242, 232, 0.86);
+  --xz-backdrop: blur(12px) saturate(1.15);
+}
+
+/* ===== 页面背景：宣纸雾 + 温暖木色渐变 + 极淡噪点 ===== */
+body {
+  background:
+    radial-gradient(1200px 800px at 15% 8%, rgba(226, 199, 154, 0.26), transparent 60%),
+    radial-gradient(900px 700px at 85% 18%, rgba(244, 222, 189, 0.40), transparent 58%),
+    linear-gradient(180deg, var(--xz-mist-100) 0%, #fcf7ef 42%, var(--xz-mist-200) 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 480 480' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== 自定义间距补齐（项目内已使用py-10） ===== */
+.py-10 {
+  padding-top: 4.5rem !important;
+  padding-bottom: 4.5rem !important;
+}
+
+/* 统一文字色阶（保留原字体，但增强层级） */
+.hero-title,
+h1, h2, h3, h4, h5 {
+  color: var(--xz-ink-800);
+  letter-spacing: 0.2px;
+}
+
+p, .text-muted {
+  color: rgba(88, 58, 36, 0.80) !important;
+}
+
+/* ===== 导航：磨砂玻璃 + 淡金描边 ===== */
+.navbar {
+  background: linear-gradient(180deg, rgba(246, 243, 238, 0.78), rgba(246, 243, 238, 0.58)) !important;
+  border-bottom: 1px solid rgba(201, 167, 106, 0.26);
+  backdrop-filter: var(--xz-backdrop);
+}
+
+.navbar.scrolled {
+  background: linear-gradient(180deg, rgba(246, 243, 238, 0.92), rgba(246, 243, 238, 0.78)) !important;
+  box-shadow: var(--xz-shadow-sm);
+}
+
+.navbar-brand {
+  color: var(--xz-ink-800) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.nav-link {
+  color: rgba(91, 58, 36, 0.80) !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--xz-ink-900) !important;
+}
+
+.nav-link::after {
+  background-color: rgba(201, 167, 106, 0.90) !important;
+  box-shadow: 0 1px 6px rgba(201, 167, 106, 0.32) !important;
+}
+
+/* ===== 轮播：控制器/指示器更精致 ===== */
+.carousel-indicators [data-bs-target] {
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background-color: rgba(252, 247, 239, 0.65);
+  box-shadow: 0 6px 18px rgba(91, 58, 36, 0.20);
+}
+
+.carousel-indicators .active {
+  background: linear-gradient(90deg, rgba(226, 199, 154, 0.98), rgba(196, 208, 205, 0.75));
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: drop-shadow(0 10px 22px rgba(18, 20, 22, 0.22));
+}
+
+/* ===== 轮播内容容器：玻璃卡片承载文字 ===== */
+.carousel-banner-content {
+  /* 移除磨砂玻璃质感，仅保留布局与轻微字重，突出视频本身 */
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: var(--xz-radius-lg);
+  text-align: center;
+}
+
+/* 轮播图按钮居中 */
+.carousel-banner-content .btn {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.carousel-banner-content h2,
+.carousel-banner-content p {
+  /* 依赖 .carousel-banner::after 的暗化做可读性，使用暖浅色 + 柔和发光 */
+  color: #fdf5ea !important; /* 暖白浅米色，提升对比度 */
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    0 0 10px rgba(255, 244, 220, 0.55);
+}
+
+/* ===== Hero：长卷感分区 + 细线纹样 ===== */
+.hero-section {
+  position: relative;
+  border-radius: 22px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  box-shadow: var(--xz-shadow-md);
+  border: var(--xz-border);
+  /* 保留原山水画：不在这里铺背景，交给 ::before（来自 index-optimized.css / 下面覆盖） */
+  background: transparent;
+}
+
+/* 关键：保留原山水画作为最底层底图，不删除，仅轻微动态；上方由视频承载主要视觉 */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -3; /* 静态山水在最底层，视频会在其上方 */
+  background:
+    linear-gradient(to top, rgba(91, 58, 36, 0.16) 0%, rgba(91, 58, 36, 0) 55%),
+    url('../images/hero-shanshui.jpg') center/cover no-repeat;
+  transform: scale(1.03);
+  filter: saturate(0.95) contrast(1.02);
+  animation: xzHeroKenBurns 18s ease-in-out infinite alternate;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* 只做景深与暗角，不叠加波纹，避免遮挡主体 */
+  background:
+    radial-gradient(900px 520px at 50% 35%, rgba(252, 247, 239, 0.26), transparent 62%),
+    radial-gradient(1200px 700px at 50% 55%, rgba(198, 160, 111, 0.24), transparent 62%),
+    linear-gradient(180deg, rgba(252, 247, 239, 0.22) 0%, rgba(252, 247, 239, 0.02) 35%, rgba(155, 117, 78, 0.10) 100%);
+}
+
+/* Hero 动态山水背景视频层 */
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  z-index: -2; /* 介于静态山水(-3)与景深蒙版(-1)之间 */
+  overflow: hidden;
+}
+
+.hero-bg-video-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.22; /* 约 20%，作为底纹不过度抢戏 */
+  filter: saturate(1.02) contrast(1.02);
+  pointer-events: none;
+}
+
+@keyframes xzHeroKenBurns {
+  from {
+    transform: scale(1.03) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(0, -1.2%, 0);
+  }
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.hero-desc {
+  color: rgba(91, 58, 36, 0.82) !important;
+}
+
+/* Hero 文案承载：玻璃“题签”让画面更充实但不喧宾夺主 */
+.hero-section .container {
+  background: linear-gradient(180deg, rgba(252, 247, 239, 0.86), rgba(252, 247, 239, 0.64));
+  border: 1px solid rgba(201, 167, 106, 0.22);
+  border-top: 1px solid rgba(201, 167, 106, 0.42);
+  border-radius: 18px;
+  box-shadow: var(--xz-shadow-sm);
+  backdrop-filter: var(--xz-backdrop);
+  max-width: 980px;
+}
+
+/* ===== 按钮：淡金描边 + 墨黑渐变（保留btn-danger类名不改功能） ===== */
+.btn.btn-danger {
+  background: linear-gradient(135deg, #b17b4b, #8f5d34);
+  border: 1px solid rgba(201, 167, 106, 0.70);
+  box-shadow: 0 14px 40px rgba(141, 94, 55, 0.32);
+  letter-spacing: 0.4px;
+}
+
+.btn.btn-danger:hover {
+  background: linear-gradient(135deg, #c18750, #9a6438);
+  border-color: rgba(201, 167, 106, 0.90);
+  transform: translateY(-1px);
+}
+
+/* ===== 卡片：磨砂玻璃 + 细金边 + 景深投影 ===== */
+.feature-card,
+.team-card {
+  background: linear-gradient(180deg, var(--xz-glass-strong), var(--xz-glass));
+  border: var(--xz-border);
+  border-top: var(--xz-border-strong);
+  border-radius: var(--xz-radius-lg);
+  box-shadow: var(--xz-shadow-sm);
+  backdrop-filter: var(--xz-backdrop);
+  position: relative;
+}
+
+.feature-card:hover,
+.team-card:hover {
+  box-shadow: var(--xz-shadow-md);
+  transform: translateY(-6px);
+}
+
+.feature-card::before,
+.team-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  /* 极细描边与“磨砂边缘高光” */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 0 1px rgba(18, 20, 22, 0.06);
+}
+
+.feature-card:hover::before,
+.team-card:hover::before {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 0 0 1px rgba(216, 194, 138, 0.22);
+}
+
+.feature-icon {
+  color: rgba(191, 164, 91, 0.92) !important;
+  filter: drop-shadow(0 8px 18px rgba(18, 20, 22, 0.14));
+}
+
+.feature-card h3,
+.team-card .card-title {
+  color: rgba(18, 20, 22, 0.88) !important;
+  letter-spacing: 0.3px;
+}
+
+.feature-card p {
+  color: rgba(26, 31, 34, 0.72) !important;
+}
+
+.feature-keyword {
+  color: rgba(91, 58, 36, 0.96) !important;
+  font-weight: 700;
+  background: linear-gradient(to bottom, transparent 62%, rgba(226, 199, 154, 0.32) 62%);
+  border-radius: 6px;
+}
+
+/* 团队卡片：图片边框更精致（覆盖行内圆角不破坏布局） */
+.team-card img.card-img-top {
+  border-bottom: 1px solid rgba(18, 20, 22, 0.08);
+  box-shadow: 0 12px 30px rgba(18, 20, 22, 0.10);
+}
+
+.team-card .card-body {
+  padding-top: 14px;
+}
+
+/* ===== 分区层次：容器段落“卷轴边框感”与留白 ===== */
+.container.py-5,
+.container.py-10 {
+  position: relative;
+}
+
+.container.py-5::before,
+.container.py-10::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: -10px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 167, 106, 0.40), transparent);
+  opacity: 0.9;
+}
+
+.container.py-5::after,
+.container.py-10::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -10px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(155, 117, 78, 0.18), transparent);
+  opacity: 0.9;
+}
+
+/* 标题层级：淡金“簪线”强调，但保持克制 */
+.display-5 {
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.display-5::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(226, 199, 154, 0.98), transparent);
+  box-shadow: 0 10px 30px rgba(155, 117, 78, 0.18);
+}
+
+/* 内容区默认行距更稳，增强教学专业感 */
+.container p {
+  line-height: 1.9;
+}
+
+/* ===== 价值罗盘：更科技的细线与层次 ===== */
+.compass-outer {
+  background: linear-gradient(180deg, rgba(252, 247, 239, 0.92), rgba(252, 247, 239, 0.70)) !important;
+  border-color: rgba(201, 167, 106, 0.30) !important;
+  box-shadow: var(--xz-shadow-md) !important;
+}
+
+.compass-outer::before {
+  border-color: rgba(201, 167, 106, 0.40) !important;
+}
+
+.compass-inner {
+  background: linear-gradient(135deg, #b17b4b, #8f5d34) !important;
+  border-color: rgba(226, 199, 154, 0.60) !important;
+}
+
+.compass-sector {
+  background: rgba(252, 247, 239, 0.74) !important;
+  border-color: rgba(155, 117, 78, 0.24) !important;
+  box-shadow: var(--xz-shadow-sm) !important;
+}
+
+.compass-sector:hover {
+  border-color: rgba(226, 199, 154, 0.95) !important;
+  box-shadow: var(--xz-shadow-md) !important;
+}
+
+/* ===== 页脚：压暗 + 细金线 ===== */
+footer {
+  background: linear-gradient(180deg, #a06b3e, #7f5432);
+  color: rgba(252, 247, 239, 0.96);
+  border-top: 1px solid rgba(226, 199, 154, 0.60);
+}
+
+footer .text-muted {
+  color: rgba(252, 247, 239, 0.80) !important;
+}
+
+/* ===== 回到顶部：磨砂玻璃小印章 ===== */
+.back-to-top {
+  background: linear-gradient(180deg, rgba(246, 243, 238, 0.88), rgba(246, 243, 238, 0.62)) !important;
+  border: 1px solid rgba(216, 194, 138, 0.38) !important;
+  backdrop-filter: var(--xz-backdrop);
+  box-shadow: var(--xz-shadow-md) !important;
+}
+
+.back-to-top i {
+  color: rgba(18, 20, 22, 0.82) !important;
+}
+
+.back-to-top:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(216, 194, 138, 0.62) !important;
+}
+
+/* ===== 响应式微调 ===== */
+@media (max-width: 768px) {
+  .hero-section {
+    border-radius: 16px;
+  }
+
+  .hero-section .container {
+    padding-top: 54px;
+    padding-bottom: 54px;
+  }
+}
+

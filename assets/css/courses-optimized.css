@@ -5,6 +5,37 @@
  * ============================================
  */
 
+/* ===== 页面全局背景：动态山水视频底纹 ===== */
+.page-bg-video {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.page-bg-video::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(250, 248, 245, 0.3) 0%,
+        rgba(250, 248, 245, 0.1) 50%,
+        rgba(250, 248, 245, 0.4) 100%
+    );
+    pointer-events: none;
+}
+
+.page-bg-video-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.15; /* 控制在 15% 左右，保证内容清晰可读 */
+    pointer-events: none;
+    filter: sepia(10%) saturate(80%); /* 添加轻微复古色调 */
+}
+
 /* ===== 页面标题区 ===== */
 .page-header {
     padding: 3rem 0 2rem;

@@ -10,17 +10,24 @@
 /* 全局色彩系统 */
 :root {
     /* 主色 */
+    --color-ink-primary: #8B4513;  /* 墨棕 - 主要文字和强调色 */
     --primary-color: #8B4513;      /* 赭石棕 */
     --primary-dark: #753810;       /* 赭石棕加深10% */
     --paper-color: #FAF0E6;        /* 米白宣纸色 */
     
     /* 辅助色 */
+    --color-accent: #DC143C;        /* 朱砂红 - 强调和链接色 */
     --accent-color: #DC143C;        /* 朱砂红 */
     --text-color: #363636;          /* 墨灰 */
     
     /* 中性色 */
     --light-gray: #F5F7FA;          /* 浅灰 */
     --ink-gray: #E8E5E1;            /* 淡墨浅灰 */
+    
+    /* 字体系统 */
+    --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
+    --font-sans: 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif;
+    --font-mono: 'Courier New', 'Courier', monospace;
     
     /* 间距系统 */
     --spacing-xs: 4px;
@@ -34,16 +41,27 @@
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
     --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
     
     /* 阴影系统 */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15);
     
     /* 动画时长 */
     --transition-fast: 0.3s;
     --transition-normal: 0.5s;
     --transition-slow: 0.8s;
+    
+    /* Z-index层级 */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
 }
 
 /* 全局基础样式 */
