@@ -658,6 +658,19 @@
                 });
             }
         });
+        
+        // ===== 确保模态框正确关闭并清理backdrop =====
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('hidden.bs.modal', function() {
+                // 移除可能残留的backdrop
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                backdrops.forEach(backdrop => backdrop.remove());
+                // 确保body样式恢复
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            });
+        });
     </script>
     <!-- 引入卷轴徐展动画脚本 -->
     <script src="assets/js/scroll-unfolding.js"></script>

@@ -56,7 +56,9 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// ESC键关闭
+// ESC键关闭 - 仅当scrollModal存在时才响应
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeScrollModal();
+    if (e.key === 'Escape' && document.getElementById('scrollModal')) {
+        closeScrollModal();
+    }
 });
