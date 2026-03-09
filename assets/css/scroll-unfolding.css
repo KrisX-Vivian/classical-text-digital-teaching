@@ -1,11 +1,139 @@
 /**
  * ============================================
- * 卷轴徐展式呈现动画 - 全局通用模态框样式
- * 适用于：价值罗盘、人物卡牌、PPT预览等弹窗
+ * 卷轴徐展式呈现动画
+ * 一、页面加载：淡墨晕染底纹 + 宣纸浮起 + 毛笔逐行显现（0.8–1.2s）
+ * 二、模态框：价值罗盘、人物卡牌、PPT预览等弹窗
  * ============================================
  */
 
-/* ===== 1. 基础容器 - 卷轴外框 ===== */
+/* ==================== 页面级卷轴徐展（index 首屏） ==================== */
+
+/* 1. 淡墨晕染底纹：从中心向四周涟漪扩散 + 细微颗粒质感 */
+.scroll-ink-page-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 50%, rgba(91, 58, 36, 0.18) 0%, rgba(91, 58, 36, 0.08) 40%, rgba(139, 69, 19, 0.02) 65%, transparent 75%);
+  background-size: 200px 200px, 100% 100%;
+  background-position: 0 0, center;
+  transform: scale(0.6);
+  opacity: 0.9;
+  animation: scrollInkSpread 1.8s cubic-bezier(0.33, 1, 0.68, 1) 0.3s forwards;
+}
+
+body.scroll-ink-done .scroll-ink-page-overlay {
+  opacity: 0;
+  transform: scale(1.2);
+  visibility: hidden;
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out, visibility 0s linear 0.26s;
+  pointer-events: none;
+  will-change: auto;
+}
+
+@keyframes scrollInkSpread {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.85;
+  }
+  45% {
+    transform: scale(1.05);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+/* 2. 宣纸裱裱层层浮起：内容框架初始态（仅 opacity + transform） */
+.scroll-unfolding.paper-texture {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  transition: opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.scroll-unfolding.paper-texture.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 3. 毛笔蘸墨逐行显现：父级 .active 或 body.scroll-ink-done 时激活 */
+.brush-text {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(2px);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+              filter 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition-delay: calc(0.18s + (var(--delay, 0) * 0.15s));
+}
+
+.scroll-unfolding.active .brush-text,
+.scroll-unfolding.paper-texture.active .brush-text,
+body.scroll-ink-done .brush-text {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* 呼吸感：柔和起伏，不抢戏 */
+.breathing-element {
+  transition: transform 0.5s ease-out;
+}
+
+body.scroll-ink-done .breathing-element {
+  animation: scrollBreathe 4.5s ease-in-out infinite;
+}
+
+@keyframes scrollBreathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.01); }
+}
+
+/* 性能：仅动画期间使用 will-change，避免长期占用 */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-ink-page-overlay {
+    will-change: transform, opacity;
+  }
+  .scroll-unfolding.paper-texture {
+    will-change: transform, opacity;
+  }
+}
+
+/* 无障碍：尊重用户“减少动画”设置 */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-ink-page-overlay {
+    animation: none;
+    opacity: 0;
+    transform: scale(1);
+  }
+  body.scroll-ink-done .scroll-ink-page-overlay {
+    opacity: 0;
+  }
+  .scroll-unfolding.paper-texture {
+    transition-duration: 0.05s;
+  }
+  .scroll-unfolding.paper-texture.active,
+  .scroll-unfolding.paper-texture {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .brush-text {
+    transition-duration: 0.05s;
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .breathing-element {
+    animation: none;
+  }
+}
+
+/* ===== 模态框：1. 基础容器 - 卷轴外框 ===== */
 .scroll-unfolding-modal {
     position: fixed;
     inset: 0;
@@ -178,11 +306,11 @@
 
 /* ===== 8. 呼吸感微动画 ===== */
 .scroll-breathing {
-    animation: scrollBreathe 4s ease-in-out infinite;
+    animation: scrollBreatheModal 4s ease-in-out infinite;
     animation-delay: 1.2s;
 }
 
-@keyframes scrollBreathe {
+@keyframes scrollBreatheModal {
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-2px) scale(1.002); }
 }

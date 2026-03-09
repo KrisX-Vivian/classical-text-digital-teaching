@@ -68,13 +68,8 @@
             100% { opacity: 1; transform: scale(1); }
         }
         
-        /* 开场动画元素初始状态 */
-        .navbar { transform: translateY(-100%); opacity: 0; }
-        .carousel-banner-content h2 { transform: scale(0.8); opacity: 0; }
-        .carousel-banner-content p { transform: translateY(30px); opacity: 0; }
-        .carousel-banner-content .btn { transform: translateY(50px); opacity: 0; }
+        /* 开场动画元素初始状态（.feature-card 由 .fade-in 控制，不在此重复声明） */
         .hero-section { opacity: 0; }
-        .feature-card { opacity: 0; transform: translateY(30px); }
         
         /* 动态山水背景淡入动画 */
         .hero-bg-video-media {
@@ -141,26 +136,17 @@
             opacity: 1;
         }
         
-        /* 导航栏动画 */
+        /* 导航栏动画（唯一声明） */
         .navbar {
             transform: translateY(-100%);
             opacity: 0;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
+                        opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
         }
         
         .navbar.animated {
             transform: translateY(0);
             opacity: 1;
-        }
-        
-        /* 探索按钮呼吸效果 */
-        .animate-btn.animated {
-            animation: breathing 3s ease-in-out infinite;
-        }
-        
-        @keyframes breathing {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
         
         /* ===== 轮播图高级样式 ===== */
@@ -317,6 +303,8 @@
     </style>
 </head>
 <body>
+    <!-- 卷轴徐展：淡墨晕染底纹（从中心涟漪扩散，约 1s 后淡出） -->
+    <div class="scroll-ink-page-overlay" id="scrollInkOverlay" aria-hidden="true"></div>
     <!-- 开场加载动画 -->
     <div class="page-loading" id="pageLoading">
         <div class="loading-logo">典籍新诠</div>
@@ -600,98 +588,64 @@
     <!-- 引入JS依赖 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ===== 渐进式开场动画 =====
+        // ===== 渐进式开场动画（卷轴徐展：0.8–1.2s 内完成） =====
         function initPageAnimation() {
             const pageLoading = document.getElementById('pageLoading');
             const navbar = document.querySelector('.navbar');
             const heroBgVideo = document.querySelector('.hero-bg-video-media');
-            
-            // 检查是否是首次访问（使用sessionStorage）
-            const hasVisited = sessionStorage.getItem('hasVisited');
-            
-            if (!hasVisited) {
-                // 首次访问：执行完整开场动画
-                sessionStorage.setItem('hasVisited', 'true');
-                
-                // 步骤1：动态山水背景淡入（0.5秒后开始）
-                setTimeout(() => {
-                    if (heroBgVideo) {
-                        heroBgVideo.classList.add('loaded');
-                    }
-                }, 500);
-                
-                // 步骤2：导航栏滑入（1秒后开始）
-                setTimeout(() => {
-                    if (navbar) {
-                        navbar.classList.add('animated');
-                    }
-                }, 1000);
-                
-                // 步骤3：轮播图标题浮现（1.5秒后开始）
-                setTimeout(() => {
-                    const animateTitles = document.querySelectorAll('.animate-title');
-                    const animateSubtitles = document.querySelectorAll('.animate-subtitle');
-                    const animateBtns = document.querySelectorAll('.animate-btn');
-                    
-                    animateTitles.forEach(title => title.classList.add('animated'));
-                    setTimeout(() => {
-                        animateSubtitles.forEach(subtitle => subtitle.classList.add('animated'));
-                    }, 300);
-                    setTimeout(() => {
-                        animateBtns.forEach(btn => btn.classList.add('animated'));
-                    }, 600);
-                }, 1500);
-                
-                // 步骤4：Hero区域淡入（2.5秒后开始）
-                setTimeout(() => {
-                    const animateHero = document.querySelector('.animate-hero');
-                    const animateHeroTitle = document.querySelector('.animate-hero-title');
-                    const animateHeroDesc = document.querySelector('.animate-hero-desc');
-                    const animateHeroBtn = document.querySelector('.animate-hero-btn');
-                    
-                    if (animateHero) animateHero.classList.add('animated');
-                    setTimeout(() => {
-                        if (animateHeroTitle) animateHeroTitle.classList.add('animated');
-                    }, 300);
-                    setTimeout(() => {
-                        if (animateHeroDesc) animateHeroDesc.classList.add('animated');
-                    }, 600);
-                    setTimeout(() => {
-                        if (animateHeroBtn) animateHeroBtn.classList.add('animated');
-                    }, 900);
-                }, 2500);
-                
-                // 步骤5：触发卷轴徐展效果（2.8秒后）
-                setTimeout(() => {
-                    const scrollElements = document.querySelectorAll('.scroll-unfolding');
-                    scrollElements.forEach((element, index) => {
-                        setTimeout(() => {
-                            element.classList.add('active');
-                        }, index * 200); // 每个元素间隔200ms
-                    });
-                }, 2800);
-                
-                // 步骤6：隐藏加载动画（3秒后）
-                setTimeout(() => {
-                    if (pageLoading) {
-                        pageLoading.classList.add('hidden');
-                        setTimeout(() => {
-                            pageLoading.style.display = 'none';
-                        }, 800);
-                    }
-                }, 3000);
-                
-            } else {
-                // 非首次访问：直接显示所有内容
-                if (heroBgVideo) heroBgVideo.classList.add('loaded');
+            const scrollInkOverlay = document.getElementById('scrollInkOverlay');
+
+            function showAllContent() {
+                document.body.classList.add('scroll-ink-done');
                 if (navbar) navbar.classList.add('animated');
-                
-                const animateElements = document.querySelectorAll('.animate-title, .animate-subtitle, .animate-btn, .animate-hero, .animate-hero-title, .animate-hero-desc, .animate-hero-btn');
-                animateElements.forEach(el => el.classList.add('animated'));
-                
+                if (heroBgVideo) heroBgVideo.classList.add('loaded');
+                document.querySelectorAll('.scroll-unfolding').forEach(el => el.classList.add('active'));
+                document.querySelectorAll('.animate-title, .animate-subtitle, .animate-btn, .animate-hero, .animate-hero-title, .animate-hero-desc, .animate-hero-btn').forEach(el => el.classList.add('animated'));
                 if (pageLoading) {
-                    pageLoading.style.display = 'none';
+                    pageLoading.classList.add('hidden');
+                    setTimeout(function () { pageLoading.style.display = 'none'; }, 400);
                 }
+            }
+
+            var hasVisited = sessionStorage.getItem('hasVisited');
+            if (!hasVisited) {
+                sessionStorage.setItem('hasVisited', 'true');
+
+                // 步骤 1：立即隐藏 page-loading，让用户先看到淡墨扩散
+                if (pageLoading) {
+                    pageLoading.classList.add('hidden');
+                    setTimeout(function () { pageLoading.style.display = 'none'; }, 800);
+                }
+
+                // 步骤 2（900ms）：宣纸浮起 + 毛笔逐行（由 CSS .active 驱动 brush-text）
+                setTimeout(function () {
+                    document.querySelectorAll('.scroll-unfolding').forEach(function (el, i) {
+                        setTimeout(function () { el.classList.add('active'); }, i * 150);
+                    });
+                }, 900);
+
+                // 步骤 3（1000ms）：导航滑入 + 轮播标题
+                setTimeout(function () {
+                    if (navbar) navbar.classList.add('animated');
+                    document.querySelectorAll('.animate-title').forEach(function (t) { t.classList.add('animated'); });
+                }, 1000);
+                setTimeout(function () {
+                    document.querySelectorAll('.animate-subtitle').forEach(function (s) { s.classList.add('animated'); });
+                    document.querySelectorAll('.animate-btn').forEach(function (b) { b.classList.add('animated'); });
+                }, 650);
+
+                // 步骤 4（800ms）：Hero 区与山水背景
+                setTimeout(function () {
+                    if (heroBgVideo) heroBgVideo.classList.add('loaded');
+                    var hero = document.querySelector('.animate-hero');
+                    if (hero) hero.classList.add('animated');
+                    document.querySelectorAll('.animate-hero-title, .animate-hero-desc, .animate-hero-btn').forEach(function (el) { el.classList.add('animated'); });
+                }, 800);
+
+                // 步骤 5（1800ms）：淡墨收尾，确保所有内容可见
+                setTimeout(showAllContent, 1800);
+            } else {
+                showAllContent();
             }
         }
         
