@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+import json
+import os
+import re
+
+def generate_full_html():
+    json_path = r'd:\大创项目\classical-literature-ai-web\data\红楼梦题库--txt版本\hongloumeng_questions.json'
+    html_path = r'd:\大创项目\classical-literature-ai-web\exercises.html'
+    
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    questions = data['questions']
+    
+    questions_json = json.dumps(questions, ensure_ascii=False)
+    
+    html_template = '''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +27,6 @@
     <link rel="stylesheet" href="assets/css/exercises-optimized.css">
     <link rel="stylesheet" href="assets/css/scroll-unfolding.css?v=1">
     <style>
-        /* 保持原有样式不变 */
         .filter-nav-section {
             background: linear-gradient(135deg, #f9f5ed 0%, #f0e6d2 100%);
             border: 2px solid #8b5a2b;
@@ -73,7 +87,7 @@
             border: 1px dashed #a06c3b;
             border-radius: 8px;
             background: #fdfbf7;
-            overflow: visible;
+            overflow: hidden;
         }
         
         .question-header {
@@ -96,9 +110,11 @@
             color: #5d3a1a;
             font-family: "Noto Serif SC", "楷体", serif;
             flex: 1;
-            line-height: 1.6;
-            overflow: visible;
-            word-wrap: break-word;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         
         .question-meta {
@@ -146,6 +162,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        .exercise-options .form-check {
+            padding: 10px 15px;
+            margin: 8px 0;
+            border: 1px solid #e0d5c5;
+            border-radius: 6px;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+        
+        .exercise-options .form-check:hover {
+            border-color: #8b5a2b;
+            background: #faf6ef;
+        }
+        
+        .exercise-options .form-check-input:checked + .form-check-label {
+            color: #8b5a2b;
+            font-weight: 600;
+        }
+        
         .answer-card {
             background: #fdfbf7;
             border-left: 4px solid #8b5a2b;
@@ -157,6 +192,25 @@
         .correct-answer {
             color: #8b5a2b;
             font-size: 16px;
+        }
+        
+        .textarea-form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dcc9a8;
+            border-radius: 6px;
+            background: #fdfbf7;
+            font-family: "Noto Serif SC", "楷体", serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .textarea-form-control:focus {
+            outline: none;
+            border-color: #8b5a2b;
+            box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.1);
         }
         
         .guofeng-btn {
@@ -230,41 +284,23 @@
     </div>
 
     <div class="container">
-        <div class="row g-4" style="display: flex; flex-wrap: nowrap;">
-            <div class="exercise-module" style="width: 48%;">
+        <div class="row g-4">
+            <div class="col-lg-6 exercise-module">
                 <h2 class="h4 mb-4">精选题库</h2>
-                
-                <!-- 互动小游戏按钮 -->
-                <div class="mb-4">
-                    <button class="filter-btn" onclick="openGame()" style="background: linear-gradient(135deg, #a06c3b 0%, #8b5a2b 100%); color: #f9f5ed; border-color: #a06c3b;">
-                        <i class="bi bi-controller"></i> 开始小游戏
-                    </button>
-                </div>
-                
-                <!-- 搜索框 -->
-                <div class="mb-4">
-                    <input type="text" class="form-control" id="searchInput" placeholder="搜索题目..." style="padding: 12px 16px; border: 2px solid #dcc9a8; border-radius: 8px; font-family: 'Noto Serif SC', '楷体', serif;">
-                </div>
                 
                 <div class="filter-nav-section mb-4">
                     <div class="filter-btn-group">
                         <button class="filter-btn active" data-filter="all" onclick="showQuestions('all')">
                             <i class="bi bi-grid-3x3-gap"></i>全部题目
                         </button>
-                        <button class="filter-btn" data-filter="情节考察" onclick="showQuestions('情节考察')">
-                            <i class="bi bi-book"></i>情节考察
+                        <button class="filter-btn" data-filter="choice" onclick="showQuestions('choice')">
+                            <i class="bi bi-list-check"></i>选择题
                         </button>
-                        <button class="filter-btn" data-filter="人物形象" onclick="showQuestions('人物形象')">
-                            <i class="bi bi-person"></i>人物形象
+                        <button class="filter-btn" data-filter="short" onclick="showQuestions('short')">
+                            <i class="bi bi-pencil-square"></i>简答题
                         </button>
-                        <button class="filter-btn" data-filter="诗词鉴赏" onclick="showQuestions('诗词鉴赏')">
-                            <i class="bi bi-pen"></i>诗词鉴赏
-                        </button>
-                        <button class="filter-btn" data-filter="阅读理解" onclick="showQuestions('阅读理解')">
-                            <i class="bi bi-journal-text"></i>阅读理解
-                        </button>
-                        <button class="filter-btn" data-filter="跨领域结合" onclick="showQuestions('跨领域结合')">
-                            <i class="bi bi-stars"></i>跨领域结合
+                        <button class="filter-btn" data-filter="analysis" onclick="showQuestions('analysis')">
+                            <i class="bi bi-journal-text"></i>分析题
                         </button>
                         <button class="filter-btn" data-filter="collapse" onclick="collapseAll()">
                             <i class="bi bi-chevron-double-up"></i>收起全部
@@ -280,7 +316,11 @@
                 </div>
             </div>
 
-            <div class="ai-tool-module" style="width: 48%; margin-left: 4%;">
+            <div class="col-lg-1 d-none d-lg-block">
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="col-lg-5 ai-tool-module">
                 <div class="ai-tool-card">
                     <div class="digital-pattern"></div>
                     <i class="bi bi-robot tool-icon"></i>
@@ -329,82 +369,9 @@
         
         const BACKEND_API_URL = '/api/ai/chat';
         
-        // 全局变量存储题库数据
-        let questionsData = [];
-        let dataLoaded = false;
-
-        // 加载题库 JSON
-        fetch('data/红楼梦题库--txt版本/questions.json')
-            .then(response => {
-                if (!response.ok) throw new Error('题库加载失败');
-                return response.json();
-            })
-            .then(data => {
-                questionsData = data;
-                dataLoaded = true;
-                
-                // 绑定搜索框事件
-                const searchInput = document.getElementById('searchInput');
-                if (searchInput) {
-                    searchInput.addEventListener('input', searchQuestions);
-                }
-                
-                // 默认显示全部题目（如果已经有激活的按钮，重新执行筛选）
-                const activeBtn = document.querySelector('.filter-btn.active');
-                if (activeBtn) {
-                    const filter = activeBtn.getAttribute('data-filter');
-                    if (filter !== 'collapse') showQuestions(filter);
-                }
-            })
-            .catch(error => {
-                console.error('加载题库出错:', error);
-                document.getElementById('emptyTip').innerHTML = `
-                    <i class="bi bi-exclamation-triangle"></i>
-                    <p>题库加载失败，请刷新重试</p>
-                `;
-            });
+        const questionsData = QUESTIONS_PLACEHOLDER;
 
         let currentFilter = '';
-        
-        // 搜索功能
-        function searchQuestions() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            
-            if (!dataLoaded) return;
-            
-            let filteredQuestions = [];
-            
-            if (searchTerm === '') {
-                if (currentFilter === '' || currentFilter === 'all') {
-                    filteredQuestions = questionsData;
-                } else {
-                    filteredQuestions = questionsData.filter(q => q.category === currentFilter);
-                }
-            } else {
-                let baseData = currentFilter === '' || currentFilter === 'all' 
-                    ? questionsData 
-                    : questionsData.filter(q => q.category === currentFilter);
-                
-                filteredQuestions = baseData.filter(q => 
-                    (q.title && q.title.toLowerCase().includes(searchTerm)) || 
-                    (q.content && q.content.toLowerCase().includes(searchTerm))
-                );
-            }
-            
-            const container = document.getElementById('questionsContainer');
-            const emptyTip = document.getElementById('emptyTip');
-            
-            if (filteredQuestions.length === 0) {
-                emptyTip.style.display = 'block';
-                emptyTip.innerHTML = '<i class="bi bi-search"></i><p>未找到匹配的题目</p>';
-                container.classList.remove('show');
-                container.innerHTML = '';
-            } else {
-                emptyTip.style.display = 'none';
-                container.classList.add('show');
-                container.innerHTML = generateQuestionsHTML(filteredQuestions);
-            }
-        }
         
         function showQuestions(filter) {
             const container = document.getElementById('questionsContainer');
@@ -413,32 +380,21 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            const targetBtn = document.querySelector(`[data-filter="${filter}"]`);
-            if (targetBtn) targetBtn.classList.add('active');
+            document.querySelector('[data-filter="' + filter + '"]').classList.add('active');
             
             currentFilter = filter;
-
-            if (!dataLoaded) {
-                emptyTip.style.display = 'none';
-                container.classList.add('show');
-                container.innerHTML = '<div class="empty-tip"><i class="bi bi-hourglass-split"></i><p>题库加载中，请稍候...</p></div>';
-                return;
-            }
-
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (searchTerm !== '') {
-                searchQuestions();
-                return;
-            }
-
             emptyTip.style.display = 'none';
             container.classList.add('show');
             
             let filteredQuestions = [];
             if (filter === 'all') {
                 filteredQuestions = questionsData;
-            } else {
-                filteredQuestions = questionsData.filter(q => q.category === filter);
+            } else if (filter === 'choice') {
+                filteredQuestions = questionsData.filter(q => q.type === '选择题');
+            } else if (filter === 'short') {
+                filteredQuestions = questionsData.filter(q => q.type === '简答题');
+            } else if (filter === 'analysis') {
+                filteredQuestions = questionsData.filter(q => q.type === '分析题');
             }
             
             container.innerHTML = generateQuestionsHTML(filteredQuestions);
@@ -465,52 +421,56 @@
             
             let html = '';
             questions.forEach((q, index) => {
-                const questionId = 'q' + q.id;
+                const typeIcon = q.type === '选择题' ? 'bi-list-check' : (q.type === '简答题' ? 'bi-pencil-square' : 'bi-journal-text');
+                const displayQuestion = q.question.replace(/《红楼梦》/g, '<span class="keyword">《红楼梦》</span>');
                 
-                let previewText = q.content || '';
-                previewText = previewText.replace(/^\d+[．.、]*/, '').trim();
-                
-                let displayTitle = q.title;
-                if (previewText.length > 0) {
-                    const preview = previewText.substring(0, 30);
-                    displayTitle = q.title + '：' + preview + (previewText.length > 30 ? '...' : '');
-                }
-                
-                html += '<div class="question-group" data-id="' + questionId + '">';
-                html += '  <div class="question-header" onclick="toggleQuestion(\'' + questionId + '\')">';
-                html += '    <h3>' + displayTitle + '</h3>';
+                html += '<div class="question-group" data-id="' + q.id + '">';
+                html += '  <div class="question-header" onclick="toggleQuestion(\\'' + q.id + '\\')">';
+                html += '    <h3>' + q.id + '. ' + displayQuestion + '</h3>';
                 html += '    <div class="question-meta">';
-                html += '      <span class="type-tag"><i class="bi bi-question-circle"></i> ' + q.category + '</span>';
-                html += '      <i class="bi bi-chevron-down fold-icon" id="icon-' + questionId + '"></i>';
+                html += '      <span class="type-tag"><i class="bi ' + typeIcon + '"></i> ' + q.type + '</span>';
+                html += '      <i class="bi bi-chevron-down fold-icon" id="icon-' + q.id + '"></i>';
                 html += '    </div>';
                 html += '  </div>';
-                html += '  <div class="question-body" id="body-' + questionId + '">';
+                html += '  <div class="question-body" id="body-' + q.id + '">';
                 
-                html += '    <div class="exercise-content"><pre style="white-space: pre-wrap; font-family: inherit;">' + q.content + '</pre></div>';
+                if (q.type === '选择题' && q.options) {
+                    html += '    <p class="exercise-content">请从以下选项中选择正确答案：</p>';
+                    html += '    <div class="exercise-options mb-3">';
+                    q.options.forEach((opt, i) => {
+                        html += '      <div class="form-check">';
+                        html += '        <input class="form-check-input" type="radio" name="' + q.id + '" id="' + q.id + '-opt' + i + '">';
+                        html += '        <label class="form-check-label" for="' + q.id + '-opt' + i + '">' + opt + '</label>';
+                        html += '      </div>';
+                    });
+                    html += '    </div>';
+                } else {
+                    html += '    <p class="exercise-content">请简述你的理解：</p>';
+                    html += '    <textarea class="textarea-form-control mb-3" rows="4" placeholder="请输入你的答案..."></textarea>';
+                }
                 
-                html += '    <button class="guofeng-btn" type="button" onclick="toggleAnswer(\'' + questionId + '\')">';
+                html += '    <button class="guofeng-btn" type="button" data-bs-toggle="collapse" data-bs-target="#' + q.id + '-answer">';
                 html += '      <i class="bi bi-eye"></i> 查看答案/解析';
                 html += '    </button>';
-                html += '    <div class="answer-area" id="answer-' + questionId + '" style="display: none; margin-top: 15px;">';
+                html += '    <div class="collapse mt-3" id="' + q.id + '-answer">';
                 html += '      <div class="answer-card">';
                 if (q.answer) {
-                    html += '        <p><strong class="correct-answer">答案：</strong></p><pre style="white-space: pre-wrap;">' + q.answer + '</pre>';
+                    html += '        <p><strong class="correct-answer">答案：</strong>' + q.answer + '</p>';
                 }
-                if (q.analysis) {
-                    html += '        <p><strong>解析：</strong></p><pre style="white-space: pre-wrap;">' + q.analysis + '</pre>';
-                }
+                html += '        <p><strong>解析：</strong>请参考《红楼梦》原著相关内容进行解析。</p>';
                 html += '      </div>';
                 html += '    </div>';
                 html += '  </div>';
                 html += '</div>';
             });
+            
             return html;
         }
         
-        // 切换题目主体折叠
         function toggleQuestion(id) {
             const body = document.getElementById('body-' + id);
             const icon = document.getElementById('icon-' + id);
+            
             if (body.classList.contains('show')) {
                 body.classList.remove('show');
                 icon.classList.remove('expanded');
@@ -520,68 +480,43 @@
             }
         }
         
-        // 切换答案显示/隐藏
-        function toggleAnswer(id) {
-            const answerDiv = document.getElementById('answer-' + id);
-            if (answerDiv) {
-                if (answerDiv.style.display === 'none') {
-                    answerDiv.style.display = 'block';
-                } else {
-                    answerDiv.style.display = 'none';
-                }
-            }
-        }
-        
-        // 互动小游戏
         const GAME_LINK = 'https://api.ourteacher.cc/api/html/detail?md5=d2bc5bf73918f968f1bc66cd95fcc7b0&user_id=10029784';
+        
         function openGame() {
             window.open(GAME_LINK, '_blank');
         }
         
-        // AI助手 - 调用后端代理
         async function sendToDoubao() {
             const userInput = document.getElementById('userInput').value.trim();
             const aiResponse = document.getElementById('aiResponse');
-            const BACKEND_API_URL = 'http://localhost:5000/api/chat';
-
+            
             if (!userInput) {
                 aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><p style="color: #DC143C;">请输入您的问题！</p>';
                 return;
             }
-
+            
             aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><div class="loading-spinner"></div>';
-
+            
             try {
                 const response = await fetch(BACKEND_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: userInput })
+                    body: JSON.stringify({ question: userInput })
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `HTTP错误: ${response.status}`);
+                
+                if (!response.ok) throw new Error('HTTP错误: ' + response.status);
+                
+                const data = await response.json();
+                const answer = data.answer || data.choices?.[0]?.message?.content;
+                
+                if (answer) {
+                    aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><div style="line-height: 1.8;">' + answer.replace(/\\n/g, '<br>') + '</div>';
+                } else {
+                    throw new Error('返回数据格式不正确');
                 }
-
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let result = '';
-
-                aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><div style="line-height: 1.8;"></div>';
-                const contentDiv = aiResponse.querySelector('div');
-
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-
-                    const chunk = decoder.decode(value, { stream: true });
-                    result += chunk;
-                    contentDiv.innerHTML = result.replace(/\n/g, '<br>');
-                }
-
             } catch (error) {
                 console.error('调用AI服务出错:', error);
-                aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><p style="color: #DC143C;"><i class="bi bi-exclamation-triangle"></i> 调用失败：' + error.message + '</p>';
+                aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><p style="color: #DC143C;"><i class="bi bi-exclamation-triangle"></i> 调用失败：' + error.message + '</p><p class="text-muted small mt-2">当前后端API地址：' + BACKEND_API_URL + '</p>';
             }
         }
         
@@ -589,7 +524,6 @@
             if (e.key === 'Enter') sendToDoubao();
         });
 
-        // 回到顶部
         const backToTopBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', function() {
             if (window.scrollY > 300) {
@@ -604,4 +538,14 @@
     </script>
     <script src="assets/js/scroll-unfolding.js"></script>
 </body>
-</html>
+</html>'''
+    
+    final_html = html_template.replace('QUESTIONS_PLACEHOLDER', questions_json)
+    
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(final_html)
+    
+    print(f'成功生成完整HTML，共{len(questions)}道题目')
+
+if __name__ == '__main__':
+    generate_full_html()

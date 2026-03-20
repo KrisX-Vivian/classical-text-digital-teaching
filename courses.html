@@ -18,22 +18,51 @@
     <link rel="stylesheet" href="assets/css/scroll-unfolding.css?v=1">
     <!-- 新增：B站播放器防跳转样式 -->
     <style>
-    /* 屏蔽B站播放器的跳转行为 */
+    /* ===== 视频播放模态框完美适配 ===== */
+    .video-player-container {
+        background: #363636 !important;
+        padding: 20px !important;
+        border-radius: 8px !important;
+        height: auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        width: 100% !important;
+    }
+
+    .video-player-container video,
     .video-player-container iframe {
+        width: 100% !important;
+        height: auto !important;
+        max-height: calc(90vh - 40px) !important;
+        aspect-ratio: 16 / 9 !important;
+        display: block !important;
+        border-radius: 4px !important;
+    }
+
+    .video-player-container iframe {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
         pointer-events: auto !important;
     }
+
+    .video-player-container::before,
+    .video-player-container::after {
+        z-index: 0 !important;
+    }
+
     /* 修复模态框关闭时视频自动暂停 - 通过JS实现 */
     #video8Modal iframe {
         pointer-events: auto;
     }
-    /* 适配播放器尺寸，避免控制栏被遮挡 */
-    .video-player-container {
-        height: 600px !important;
-        width: 100% !important;
-    }
+    
+    /* 封面布局由 courses-optimized.css 统一维护，避免内联样式冲突 */
     </style>
 </head>
-<body>
+<body class="courses-page">
     <!-- 导航栏 -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
@@ -94,7 +123,7 @@
             <div class="col-md-4 video-item" data-category="hongloumeng">
                 <div class="video-card delay-1">
                     <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video1Modal">
-                        <img src="assets/images/video-1-cover.jpg" alt="红楼梦精读视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="《红楼梦》人物解析：贾宝玉的叛逆精神"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">25:30</span>
                     </div>
@@ -124,7 +153,7 @@
             <div class="col-md-4 video-item" data-category="guide">
                 <div class="video-card delay-2">
                     <div class="video-cover-wrapper">
-                        <img src="assets/images/video-2-cover.jpg" alt="古籍导读视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="古籍阅读方法：如何读懂文言小说"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">18:45</span>
                     </div>
@@ -154,7 +183,7 @@
             <div class="col-md-4 video-item" data-category="analysis">
                 <div class="video-card delay-3">
                     <div class="video-cover-wrapper">
-                        <img src="assets/images/video-3-cover.jpg" alt="文本解读视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="《红楼梦》经典桥段：黛玉葬花的象征意义"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">22:10</span>
                     </div>
@@ -184,7 +213,7 @@
             <div class="col-md-4 video-item" data-category="guide">
                 <div class="video-card delay-4">
                     <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video4Modal">
-                        <img src="assets/images/video-4-cover.jpg" alt="中学语文整本书阅读视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="中学语文整本书阅读的困境与突破"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">03:18</span>
                     </div>
@@ -214,7 +243,7 @@
             <div class="col-md-4 video-item" data-category="hongloumeng">
                 <div class="video-card delay-1">
                     <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video5Modal">
-                        <img src="assets/images/video-5-cover.jpg" alt="红楼梦人物关系解读视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="《红楼梦》人物关系深度解读"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">10:03</span>
                     </div>
@@ -244,7 +273,7 @@
             <div class="col-md-4 video-item" data-category="analysis">
                 <div class="video-card delay-2">
                     <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video6Modal">
-                        <img src="assets/images/video-6-cover.jpg" alt="促织高考文言文知识点精讲视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="蒲松龄《促织》高考文言文知识点精讲"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">17:31</span>
                     </div>
@@ -274,7 +303,7 @@
             <div class="col-md-4 video-item" data-category="guide">
                 <div class="video-card delay-3">
                     <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video7Modal">
-                        <img src="assets/images/video-7-cover.jpg" alt="儒林外史知识梳理视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="《儒林外史》知识梳理与考点解析"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">7:47</span>
                     </div>
@@ -304,7 +333,7 @@
             <div class="col-md-4 video-item" data-category="guide">
                 <div class="video-card delay-1">
                     <div class="video-cover-wrapper" data-bs-toggle="modal" data-bs-target="#video8Modal">
-                        <img src="assets/images/hongloumeng-cover.jpg" alt="红楼梦详解第一讲视频封面" loading="lazy">
+                        <div class="cover-placeholder" data-title="《红楼梦》详解第一讲"></div>
                         <div class="play-button"></div>
                         <span class="video-duration">36:07</span>
                     </div>
@@ -485,7 +514,7 @@
                             allowfullscreen="true"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             class="w-100" 
-                            style="aspect-ratio: 16/9; border-radius: 8px; height: 600px; pointer-events: auto;">
+                            style="aspect-ratio: 16/9; border-radius: 8px; pointer-events: auto;">
                         </iframe>
                     </div>
                     <div class="mt-4">
@@ -631,22 +660,7 @@
             });
         });
         
-        // 视频懒加载
-        const videoImages = document.querySelectorAll('.video-cover-wrapper img');
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.classList.add('loading');
-                    img.addEventListener('load', () => {
-                        img.classList.remove('loading');
-                    });
-                    imageObserver.unobserve(img);
-                }
-            });
-        }, { rootMargin: '50px' });
-        
-        videoImages.forEach(img => imageObserver.observe(img));
+
         
         // ===== 视频播放器基础功能 =====
         // 仅处理模态框关闭时暂停视频

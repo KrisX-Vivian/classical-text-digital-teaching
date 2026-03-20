@@ -1,0 +1,25 @@
+# 环境变量文件（存放 API 密钥）
+.env
+
+# Python 虚拟环境
+venv/
+env/
+ENV/
+__pycache__/
+*.pyc
+
+# 编辑器/IDE 配置文件
+.vscode/
+.idea/
+*.swp
+
+# 操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 项目临时文件
+*.log
+*.tmp
+
+# 如果使用 npm 或 yarn（未来可能用到的）
+node_modules/

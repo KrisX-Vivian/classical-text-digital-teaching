@@ -78,6 +78,7 @@
 /* ===== 题库模块 ===== */
 .exercise-module {
     padding-right: 2rem;
+    flex: none;
 }
 
 @media (max-width: 991.98px) {
@@ -276,6 +277,10 @@
 /* ===== AI工具模块 ===== */
 .ai-tool-module {
     padding-left: 1rem;
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+    flex: none;
 }
 
 @media (max-width: 991.98px) {

@@ -530,3 +530,62 @@ video::-moz-range-thumb {
 .video-card.delay-4 { transition-delay: 0.4s; }
 .video-card.delay-5 { transition-delay: 0.5s; }
 .video-card.delay-6 { transition-delay: 0.6s; }
+
+/* 修复视频封面区域布局 */
+.video-cover-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background: #E8E5E1; /* 占位背景 */
+    overflow: hidden;
+}
+
+/* 确保封面占位符完全覆盖父容器，且无额外间距 */
+.cover-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #8B4513;
+    box-sizing: border-box; /* 关键：边框包含在宽高内 */
+    background: linear-gradient(145deg, #F5E6D3 0%, #E8D4B8 100%);
+    background-image: 
+        linear-gradient(rgba(139,69,19,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,69,19,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: block;
+}
+
+/* 内边框装饰，不影响实际占位 */
+.cover-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid rgba(139,69,19,0.3);
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+/* 文本居中显示 */
+.cover-placeholder::before {
+    content: attr(data-title);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    color: #5D3A1A;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}

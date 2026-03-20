@@ -496,7 +496,7 @@
                         <img src="assets/images/team-photo/team-1.jpg" class="card-img-top" alt="队长" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">XXX（队长）</h5>
+                        <h5 class="card-title">施依含（队长）</h5>
                     </div>
                 </div>
             </div>
@@ -507,7 +507,7 @@
                         <img src="assets/images/team-photo/team-2.jpg" class="card-img-top" alt="成员2" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">XXX</h5>
+                        <h5 class="card-title">富子懿</h5>
                     </div>
                 </div>
             </div>
@@ -518,7 +518,7 @@
                         <img src="assets/images/team-photo/team-3.jpg" class="card-img-top" alt="成员3" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">XXX</h5>
+                        <h5 class="card-title">刘乐乐</h5>
                     </div>
                 </div>
             </div>
@@ -529,7 +529,7 @@
                         <img src="assets/images/team-photo/team-4.jpg" class="card-img-top" alt="成员4" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">XXX</h5>
+                        <h5 class="card-title">潘雪菲</h5>
                     </div>
                 </div>
             </div>
@@ -540,16 +540,16 @@
                         <img src="assets/images/team-photo/team-5.jpg" class="card-img-top" alt="成员5" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">XXX</h5>
+                        <h5 class="card-title">农惠渝</h5>
                     </div>
                 </div>
             </div>
         </div>
         <!-- 联系方式 - 请替换为真实信息 -->
         <div class="row mt-5 text-center">
-            <p><i class="bi bi-envelope-fill me-2"></i> 邮箱：xxx@xxx.com（请替换）</p>
-            <p><i class="bi bi-phone-fill me-2"></i> 电话：138XXXX8888（请替换）</p>
-            <p><i class="bi bi-weixin-fill me-2"></i> 微信：XXXXXX（可放二维码图片）</p>
+            <p><i class="bi bi-envelope-fill me-2"></i> 邮箱：3524466387@gmail.com</p>
+            <p><i class="bi bi-phone-fill me-2"></i> 电话：13351946587</p>
+            <p><i class="bi bi-weixin-fill me-2"></i> 微信：13351946587</p>
         </div>
     </section>
 
@@ -671,8 +671,9 @@
                     });
                 }, 2800);
                 
-                // 步骤6：隐藏加载动画（3秒后）
+                // 步骤6：隐藏加载动画，同时确保body有scroll-ink-done类（3秒后）
                 setTimeout(() => {
+                    document.body.classList.add('scroll-ink-done');
                     if (pageLoading) {
                         pageLoading.classList.add('hidden');
                         setTimeout(() => {
@@ -688,6 +689,15 @@
                 
                 const animateElements = document.querySelectorAll('.animate-title, .animate-subtitle, .animate-btn, .animate-hero, .animate-hero-title, .animate-hero-desc, .animate-hero-btn');
                 animateElements.forEach(el => el.classList.add('animated'));
+                
+                // 确保卷轴徐展元素也激活显示
+                const scrollElements = document.querySelectorAll('.scroll-unfolding');
+                scrollElements.forEach(element => {
+                    element.classList.add('active');
+                });
+                
+                // 确保body有scroll-ink-done类，让所有内容都显示
+                document.body.classList.add('scroll-ink-done');
                 
                 if (pageLoading) {
                     pageLoading.style.display = 'none';
@@ -852,7 +862,125 @@
             }
         }
     </script>
+
+    <!-- 终极版古风双轴卷轴动画 -->
+<div class="scroll-ink-overlay">
+  <!-- 左卷轴（带实木轴棍） -->
+  <div class="scroll-ink-left">
+    <div class="scroll-stick-left"></div>
+  </div>
+  <!-- 右卷轴（带实木轴棍） -->
+  <div class="scroll-ink-right">
+    <div class="scroll-stick-right"></div>
+  </div>
+</div>
+
+<style>
+/* 整体遮罩：宣纸纹理+水墨底纹 */
+.scroll-ink-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  /* 宣纸底色 + 纹理 + 淡水墨暗纹 */
+  background: #f9f5ed;
+  background-image: 
+    linear-gradient(rgba(249,245,237,0.95), rgba(249,245,237,0.95)),
+    url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNCIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuMSIvPjwvc3ZnPg=="),
+    url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ3aGl0ZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmMGYwZjAiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==");
+  pointer-events: none;
+  /* 水墨渐入初始效果 */
+  opacity: 1;
+  animation: inkFade 0.5s ease-in-out 0s 1 forwards;
+}
+
+/* 左卷轴：宣纸质感+阴影 */
+.scroll-ink-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: #f0e6d2;
+  box-shadow: 5px 0 20px rgba(0,0,0,0.15);
+  animation: scrollLeftInk 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* 右卷轴：宣纸质感+阴影 */
+.scroll-ink-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: #f0e6d2;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+  animation: scrollRightInk 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* 左轴棍：实木纹理 */
+.scroll-stick-left {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 100%;
+  background: #8b5a2b;
+  background-image: linear-gradient(90deg, #8b5a2b 0%, #a06c3b 50%, #8b5a2b 100%);
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* 右轴棍：实木纹理 */
+.scroll-stick-right {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 100%;
+  background: #8b5a2b;
+  background-image: linear-gradient(90deg, #8b5a2b 0%, #a06c3b 50%, #8b5a2b 100%);
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* 左卷轴展开动画 */
+@keyframes scrollLeftInk {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* 右卷轴展开动画 */
+@keyframes scrollRightInk {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* 水墨渐入效果 */
+@keyframes inkFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+</style>
+
+<script>
+// 动画结束后自动移除，不占用页面资源
+setTimeout(() => {
+  const scrollOverlay = document.querySelector('.scroll-ink-overlay');
+  if (scrollOverlay) {
+    // 移除前加个淡出过渡，更丝滑
+    scrollOverlay.style.opacity = 0;
+    scrollOverlay.style.transition = 'opacity 0.3s ease';
+    setTimeout(() => scrollOverlay.remove(), 300);
+  }
+}, 2000);
+</script>
+
     <!-- 引入卷轴徐展动画脚本 -->
     <script src="assets/js/scroll-unfolding.js"></script>
+
+
 </body>
 </html>
