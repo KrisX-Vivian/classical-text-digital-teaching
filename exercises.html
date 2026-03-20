@@ -542,7 +542,7 @@
         async function sendToDoubao() {
             const userInput = document.getElementById('userInput').value.trim();
             const aiResponse = document.getElementById('aiResponse');
-            const BACKEND_API_URL = 'http://localhost:5000/api/chat';
+            const BACKEND_API_URL = 'https://classical-text-digital-teaching.onrender.com/api/chat';
 
             if (!userInput) {
                 aiResponse.innerHTML = '<span class="ai-label"><i class="bi bi-robot"></i> AI助手回答：</span><p style="color: #DC143C;">请输入您的问题！</p>';
